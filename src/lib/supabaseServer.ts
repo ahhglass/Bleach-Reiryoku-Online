@@ -2,16 +2,19 @@
  * Supabase client for server-only use (service role).
  * Used for admin login check and any admin-only DB access.
  * Never expose service role key to the client.
+ * Uses dynamic private env so Vercel can provide secrets at runtime.
  */
 import { createClient } from '@supabase/supabase-js';
-import { PUBLIC_SUPABASE_URL } from '$env/static/public';
-import { SUPABASE_SERVICE_ROLE_KEY } from '$env/static/private';
+import { env as publicEnv } from '$env/dynamic/public';
+import { env } from '$env/dynamic/private';
 
 export function getSupabaseServer() {
-	if (!PUBLIC_SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) {
+	const url = publicEnv.PUBLIC_SUPABASE_URL;
+	const key = env.SUPABASE_SERVICE_ROLE_KEY;
+	if (!url || !key) {
 		throw new Error(
-			'Missing env: PUBLIC_SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY. Add them to .env.local and restart dev server.'
+			'Missing env: PUBLIC_SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY. Add them in Vercel (Environment Variables) or .env.local.'
 		);
 	}
-	return createClient(PUBLIC_SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
+	return createClient(url, key);
 }

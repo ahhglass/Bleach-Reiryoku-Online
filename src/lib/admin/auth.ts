@@ -1,18 +1,20 @@
 /**
  * Admin session: signed JWT in cookie.
  * Server-only. Use for /admin protection and login.
+ * Uses dynamic env so Vercel (and others) can provide secrets at runtime, not build time.
  */
 import { SignJWT, jwtVerify } from 'jose';
-import { SUPABASE_JWT_SECRET } from '$env/static/private';
+import { env } from '$env/dynamic/private';
 
 const COOKIE_NAME = 'admin_session';
 const MAX_AGE_SEC = 60 * 60 * 24 * 7; // 7 days
 
 function getSecret() {
-	if (!SUPABASE_JWT_SECRET) {
-		throw new Error('Missing env: SUPABASE_JWT_SECRET. Add it to .env.local and restart dev server.');
+	const secret = env.SUPABASE_JWT_SECRET;
+	if (!secret) {
+		throw new Error('Missing env: SUPABASE_JWT_SECRET. Add it in Vercel (Environment Variables) or .env.local.');
 	}
-	return new TextEncoder().encode(SUPABASE_JWT_SECRET);
+	return new TextEncoder().encode(secret);
 }
 
 export interface AdminSession {
