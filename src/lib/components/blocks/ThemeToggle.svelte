@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { theme } from '$lib/stores/theme';
 	import { browser } from '$app/environment';
+	import { sound } from '$lib/utils/sound';
 
 	// Unique id for SVG mask so multiple ThemeToggle instances (e.g. header + mobile menu) don't clash
 	const maskId = 'theme-moon-' + (typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID().slice(0, 8) : Math.random().toString(36).slice(2, 10));
@@ -43,6 +44,7 @@
 	title="Toggle between light and dark theme"
 	data-theme={themeValue}
 	onclick={toggleTheme}
+	use:sound
 >
 	<svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24">
 		<mask id={maskId} class="theme-moon-mask">

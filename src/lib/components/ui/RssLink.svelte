@@ -1,8 +1,9 @@
 <script lang="ts">
 	import RssIcon from '$lib/icons/rss.svelte';
+	import { sound } from '$lib/utils/sound';
 </script>
 
-<a href="/rss.xml" target="_blank" rel="noopener noreferrer" title="Subscribe to my RSS Feed">
+<a href="/rss.xml" target="_blank" rel="noopener noreferrer" title="Subscribe to my RSS Feed" use:sound>
 	<RssIcon />
 </a>
 

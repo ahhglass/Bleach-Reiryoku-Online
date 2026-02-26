@@ -3,6 +3,8 @@
 	import Socials from '$blocks/Socials.svelte';
 	import ThemeToggle from '$blocks/ThemeToggle.svelte';
 	import RssLink from '$ui/RssLink.svelte';
+	import VolumeControl from '$ui/VolumeControl.svelte';
+	import { sound } from '$lib/utils/sound';
 
 	const currentYear = new Date().getFullYear();
 </script>
@@ -15,7 +17,7 @@
 		<div class="col col-left">
 			<p class="copyright">
 				© {currentYear}
-				<a href="https://discord.gg/upnNsnvPyf" target="_blank" rel="noopener noreferrer"
+				<a href="https://discord.gg/upnNsnvPyf" target="_blank" rel="noopener noreferrer" use:sound
 					>Reiryoku Team</a
 				> <br>This site is fan-made and not affiliated with Bleach or Hytale rights holders
 			</p>
@@ -27,13 +29,14 @@
 		<div class="col col-right">
 			<p class="credits">
 				Site built with
-				<a href="https://kit.svelte.dev/" target="_blank" rel="noopener noreferrer">SvelteKit</a>
+				<a href="https://kit.svelte.dev/" target="_blank" rel="noopener noreferrer" use:sound>SvelteKit</a>
 				Icons by
-				<a href="https://iconoir.com/" target="_blank" rel="noopener noreferrer">Iconoir</a>
+				<a href="https://iconoir.com/" target="_blank" rel="noopener noreferrer" use:sound>Iconoir</a>
 			</p>
 			<div id="socials" class="socials">
 				<Socials />
 				<RssLink />
+				<VolumeControl />
 				<ThemeToggle />
 			</div>
 		</div>

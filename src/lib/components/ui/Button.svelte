@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { HttpRegex } from '$lib/utils/regex';
+	import { sound } from '$lib/utils/sound';
 
 	interface Props {
 		color?: 'primary' | 'secondary';
@@ -47,6 +48,7 @@
 	data-sveltekit-preload-data
 	{...linkProps}
 	{onclick}
+	use:sound
 >
 	{#if icon}
 		<div class="icon">

@@ -4,22 +4,23 @@
 	import LinkedInIcon from '$lib/icons/linkedin.svelte';
 	import EmailIcon from '$lib/icons/email.svelte';
 	import X from '$lib/icons/x.svelte';
+	import { sound } from '$lib/utils/sound';
 </script>
 
 <div class="socials">
-	<a href="#" target="_blank" rel="noopener noreferrer" title="Telegram">
+	<a href="#" target="_blank" rel="noopener noreferrer" title="Telegram" use:sound>
 		<TelegramIcon />
 	</a>
-	<a href="#" target="_blank" rel="me noreferrer" title="X">
+	<a href="#" target="_blank" rel="me noreferrer" title="X" use:sound>
 		<X />
 	</a>
-	<a href="#" target="_blank" rel="noopener noreferrer" title="GitHub profile">
+	<a href="#" target="_blank" rel="noopener noreferrer" title="GitHub profile" use:sound>
 		<GitHubIcon />
 	</a>
 	<!-- <a href="#" target="_blank" rel="noopener noreferrer" title="Connect on LinkedIn">
 		<LinkedInIcon />
 	</a> -->
-	<a href="#" target="_blank" rel="noopener noreferrer" title="Send an email">
+	<a href="#" target="_blank" rel="noopener noreferrer" title="Send an email" use:sound>
 		<EmailIcon />
 	</a>
 </div>

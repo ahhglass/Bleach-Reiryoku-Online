@@ -6,6 +6,7 @@
 	import EmailIcon from '$lib/icons/email.svelte';
 	import LinkedInIcon from '$lib/icons/linkedin.svelte';
 	import type { TeamMember } from '$lib/data/team';
+	import { sound, soundManager, isTouchDevice } from '$lib/utils/sound';
 
 	interface Props {
 		member: TeamMember;
@@ -24,7 +25,12 @@
 
 </script>
 
-<article class="team-card">
+<article
+	class="team-card"
+	onmouseenter={() => {
+		if (!isTouchDevice()) soundManager.playSound('cardHover');
+	}}
+>
 	<div class="border" aria-hidden="true"></div>
 
 	{#if member.avatar}
@@ -49,6 +55,7 @@
 						rel="noopener noreferrer"
 						class="icon-link"
 						title={social.label ?? social.type}
+						use:sound
 					>
 						{#if social.type === 'telegram'}
 							<TelegramIcon />

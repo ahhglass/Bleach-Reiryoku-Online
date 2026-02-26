@@ -1,5 +1,6 @@
 <script lang="ts">
 	import ImageWithSkeleton from '$ui/ImageWithSkeleton.svelte';
+	import { sound } from '$lib/utils/sound';
 
 	interface Props {
 		title: string;
@@ -24,7 +25,7 @@
 	const href = $derived(`/news/${slug}`);
 </script>
 
-<a href={href} class="news-card" data-sveltekit-preload-data>
+<a href={href} class="news-card" data-sveltekit-preload-data use:sound>
 	{#if showImage && coverImage}
 		<div class="image">
 			<ImageWithSkeleton

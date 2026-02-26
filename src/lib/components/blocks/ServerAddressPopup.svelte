@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Button from '$ui/Button.svelte';
+	import { sound } from '$lib/utils/sound';
 
 	interface Props {
 		onClose?: () => void;
@@ -51,6 +52,7 @@
 		type="button"
 		aria-label="Close"
 		onclick={onClose}
+		use:sound
 	>✕</button>
 </div>
 

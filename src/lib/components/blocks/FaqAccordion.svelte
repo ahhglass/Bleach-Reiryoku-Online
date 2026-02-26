@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { slide } from 'svelte/transition';
 	import type { FaqItem } from '$lib/data/faq';
+	import { sound } from '$lib/utils/sound';
 
 	interface Props {
 		item: FaqItem;
@@ -19,6 +20,7 @@
 		aria-controls="faq-{item.id}"
 		id="faq-trigger-{item.id}"
 		onclick={onToggle}
+		use:sound
 	>
 		<span class="question">{item.question}</span>
 		<span class="meta">

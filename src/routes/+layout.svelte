@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import '$lib/scss/global.scss';
 	import '@fontsource/inter';
 	import '@fontsource/inter/600.css';
@@ -13,15 +14,25 @@
 	import Modal from '$blocks/Modal.svelte';
 	import ServerAddressPopup from '$blocks/ServerAddressPopup.svelte';
 	import { serverModalOpen } from '$lib/stores/serverModal';
+	import { initSound, soundManager } from '$lib/utils/sound';
 
 	let { children } = $props();
 
+	onMount(() => {
+		initSound();
+	});
+
 	let open = $state(false);
+	let prevOpen = $state(false);
 	$effect(() => {
 		const unsub = serverModalOpen.subscribe((v) => {
 			open = v;
 		});
 		return unsub;
+	});
+	$effect(() => {
+		if (open && !prevOpen) soundManager.playSound('popupOpen');
+		prevOpen = open;
 	});
 </script>
 
