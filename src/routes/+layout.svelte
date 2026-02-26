@@ -1,17 +1,41 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import '$lib/scss/global.scss';
-	import '@fontsource/inter';
-	import '@fontsource/inter/600.css';
-	import '@fontsource/inter/700.css';
-	import '@fontsource/merriweather';
-	import '@fontsource/merriweather/900.css';
-	import '@fontsource/ubuntu-mono';
 	import { page } from '$app/stores';
-	import { description, image, keywords, title, siteBaseUrl } from '$lib/data/meta';
+	import { description as defaultDesc, image as defaultImage, keywords as defaultKeywords, title as defaultTitle, siteBaseUrl as defaultBaseUrl } from '$lib/data/meta';
+	import type { SiteSettings } from './+layout.server';
 
-	// Base URL without trailing slash (for canonical and og:url)
-	const baseUrl = siteBaseUrl.replace(/\/$/, '');
+	interface Props {
+		data: { settings?: SiteSettings | null };
+		children: import('svelte').Snippet;
+	}
+
+	let { data, children }: Props = $props();
+
+	const baseUrl = $derived(
+		(data?.settings?.site_base_url || defaultBaseUrl).replace(/\/$/, '') || defaultBaseUrl.replace(/\/$/, '')
+	);
+	const description = $derived(data?.settings?.site_description || defaultDesc);
+	const title = $derived(data?.settings?.site_title || defaultTitle);
+	const image = $derived(
+		data?.settings?.site_image
+			? (data.settings.site_image.startsWith('http') ? data.settings.site_image : `${baseUrl}/${data.settings.site_image.replace(/^\//, '')}`)
+			: defaultImage
+	);
+	const keywords = $derived(
+		(() => {
+			const raw = data?.settings?.site_keywords;
+			if (!raw) return defaultKeywords;
+			try {
+				const arr = JSON.parse(raw);
+				return Array.isArray(arr) ? arr : defaultKeywords;
+			} catch {
+				return defaultKeywords;
+			}
+		})()
+	);
+	const serverIp = $derived(data?.settings?.server_ip || '76.164.196.197:25565');
+
 	import Header from '$layout/Header.svelte';
 	import Waves from '$layout/Waves.svelte';
 	import Footer from '$layout/Footer.svelte';
@@ -19,8 +43,6 @@
 	import ServerAddressPopup from '$blocks/ServerAddressPopup.svelte';
 	import { serverModalOpen } from '$lib/stores/serverModal';
 	import { initSound, soundManager } from '$lib/utils/sound';
-
-	let { children } = $props();
 
 	onMount(() => {
 		initSound();
@@ -59,7 +81,7 @@
 	</div>
 
 	<Modal open={open} onclose={() => serverModalOpen.set(false)}>
-		<ServerAddressPopup onClose={() => serverModalOpen.set(false)} />
+		<ServerAddressPopup serverIp={serverIp} onClose={() => serverModalOpen.set(false)} />
 	</Modal>
 </div>
 

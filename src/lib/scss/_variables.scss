@@ -1,8 +1,8 @@
 :root {
-	// Fonts
-	--font--default: Inter, sans-serif;
-	--font--title: Merriweather, serif;
-	--font--mono: Ubuntu Mono, monospace;
+	// Fonts (local from static/fonts, defined in _fonts.scss)
+	--font--default: 'Roboto', sans-serif;
+	--font--title: 'Segoe UI', sans-serif;
+	--font--mono: 'Ubuntu Mono', monospace;
 
 	// Grabbed from open-props.style
 	--ease-3: cubic-bezier(0.25, 0, 0.3, 1);

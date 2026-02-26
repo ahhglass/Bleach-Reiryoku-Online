@@ -7,6 +7,7 @@
 	import ImageWithSkeleton from '$ui/ImageWithSkeleton.svelte';
 	import NewsCard from '$blocks/NewsCard.svelte';
 	import ArrowLeftIcon from '$lib/icons/arrow-left.svelte';
+	import { sound } from '$lib/utils/sound';
 
 	interface Props {
 		post: NewsPost;
@@ -63,7 +64,7 @@
 <div class="article-layout">
 	<div class="article-layout-inner" class:mounted>
 		<nav class="back-bar" aria-label="Back to news">
-			<button type="button" class="back-button" onclick={goBack} title="Back to news (Esc)">
+			<button type="button" class="back-button" onclick={goBack} title="Back to news (Esc)" use:sound>
 				<span class="back-icon" aria-hidden="true">
 					<ArrowLeftIcon />
 				</span>

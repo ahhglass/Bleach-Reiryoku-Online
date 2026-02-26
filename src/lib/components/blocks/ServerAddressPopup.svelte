@@ -3,17 +3,17 @@
 	import { sound } from '$lib/utils/sound';
 
 	interface Props {
+		serverIp?: string;
 		onClose?: () => void;
 	}
 
-	let { onClose }: Props = $props();
+	let { serverIp = '76.164.196.197:25565', onClose }: Props = $props();
 
-	const SERVER_IP = '76.164.196.197:25565';
 	let copied = $state(false);
 	let copyTimeout: ReturnType<typeof setTimeout> | undefined;
 
 	function copyAddress() {
-		navigator.clipboard.writeText(SERVER_IP).then(
+		navigator.clipboard.writeText(serverIp).then(
 			() => {
 				copied = true;
 				clearTimeout(copyTimeout);
@@ -23,7 +23,7 @@
 			},
 			() => {
 				const input = document.createElement('input');
-				input.value = SERVER_IP;
+				input.value = serverIp;
 				document.body.appendChild(input);
 				input.select();
 				document.execCommand('copy');
@@ -45,7 +45,7 @@
 		additionalClass="copy-btn"
 		onclick={copyAddress}
 	>
-		{copied ? 'Copied!' : SERVER_IP}
+		{copied ? 'Copied!' : serverIp}
 	</Button>
 	<button
 		class="close-btn"

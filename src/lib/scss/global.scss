@@ -1,3 +1,4 @@
+@use '$lib/scss/fonts';
 @use '$lib/scss/reset';
 @use '$lib/scss/variables';
 @use '$lib/scss/breakpoints';
@@ -10,8 +11,6 @@
 @use '$lib/scss/markdown';
 @use '$lib/scss/code-highlights';
 @use '$lib/scss/animations';
-
-/* Fonts are imported in +layout.svelte to avoid Sass @import deprecation. */
 
 body {
 	--body-background-color: var(--color--page-background);

@@ -4,12 +4,22 @@
 	import Button from '$ui/Button.svelte';
 	import Sparkles from '$ui/Sparkles.svelte';
 	import { serverModalOpen } from '$lib/stores/serverModal';
+
+	interface Props {
+		heroTitle?: string;
+		heroSubtitle?: string;
+	}
+
+	let {
+		heroTitle = 'A Bleach-inspired RPG built for Hytale',
+		heroSubtitle = 'In Development - Reiryoku Team Bleach RPG for launch'
+	}: Props = $props();
 </script>
 
 <section id="hero">
-	<h1 class="hello">A Bleach-inspired RPG built for Hytale</h1>
+	<h1 class="hello">{heroTitle}</h1>
 	<p class="intro">
-		<span>In Development - Reiryoku Team Bleach RPG for launch</span>
+		<span>{heroSubtitle}</span>
 	</p>
 	<div class="ctas">
 		<Sparkles>
@@ -44,7 +54,8 @@
 	}
 
 	.hello {
-		font-family: "Segoe UI Black", "Segoe UI", sans-serif;
+		font-family: var(--font--title);
+		font-weight: 900;
 		text-align: center;
 		text-shadow: 2px 2px 0px rgba(199, 21, 83, 1), -2px -1px 0px rgba(71, 172, 255, 1);
 		@include fluid-text(1.5rem, 3rem);

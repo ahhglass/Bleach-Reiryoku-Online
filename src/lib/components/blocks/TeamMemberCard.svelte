@@ -193,7 +193,7 @@
 	}
 
 	.name {
-		font-family: var(--font--title), 'Helvetica Neue', Helvetica, Arial, sans-serif;
+		font-family: var(--font--title);
 		color: var(--color--text-inverse);
 		margin: 0;
 		font-size: 1.25rem;

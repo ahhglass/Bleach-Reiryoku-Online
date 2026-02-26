@@ -19,9 +19,10 @@
 			xml:space="preserve"
 			id="text"
 			transform="translate(-278.77228,-206.83728)"
+			class="logo-text"
 		>
 			<tspan x="275.57227" y="292.17088" id="tspan1319">
-				<tspan style="font-size:6.667em;font-family:Segoe UI Black;" id="tspan1317">BRO</tspan>
+				<tspan class="logo-brand" id="tspan1317">BRO</tspan>
 			</tspan>
 		</text>
 	</svg>
@@ -62,6 +63,12 @@
 		#text {
 			transition: all 0.2s ease-in-out;
 			fill: var(--color--text);
+			font-family: var(--font--title);
+			font-weight: 900;
+		}
+
+		.logo-brand {
+			font-size: 6.667em;
 		}
 	}
 </style>
