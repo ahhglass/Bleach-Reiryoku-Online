@@ -26,7 +26,8 @@
 
 <div class="container team-page">
 	<header class="team-header">
-		<h1 class="title">Our Team</h1>
+		<p class="label">Meet Our</p>
+		<h1 class="title">Team</h1>
 	</header>
 
 	{#each sections as section}
@@ -54,11 +55,28 @@
 		text-align: center;
 		margin-bottom: 48px;
 
+		.label {
+			@include fluid-text(0.75rem, 0.875rem);
+			letter-spacing: 0.15em;
+			color: var(--color--text-shade);
+			margin: 0 0 8px;
+
+			@include for-phone-only {
+				font-size: 0.6875rem;
+				letter-spacing: 0.1em;
+				margin-bottom: 4px;
+			}
+		}
+
 		.title {
 			font-family: var(--font--title);
 			margin: 0 0 16px;
 			color: var(--color--text);
 			@include fluid-text(1.75rem, 2.25rem);
+
+			@include for-phone-only {
+				font-size: 1.5rem;
+			}
 		}
 	}
 
@@ -83,14 +101,18 @@
 	.cards-grid {
 		display: grid;
 		grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-		gap: 20px;
+		gap: 24px;
+		justify-items: center;
 
 		@include for-phone-only {
 			grid-template-columns: repeat(2, 1fr);
+			gap: 12px;
 		}
 
 		.card-item {
 			opacity: 0;
+			width: 100%;
+			max-width: 300px;
 		}
 
 		&.mounted .card-item {

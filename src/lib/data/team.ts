@@ -8,12 +8,23 @@
  *   If avatar is omitted, name initials are shown.
  */
 
+/** Social link type for icon selection */
+export type TeamMemberSocialType = 'telegram' | 'github' | 'x' | 'discord' | 'email' | 'linkedin';
+
+export interface TeamMemberSocial {
+	url: string;
+	type: TeamMemberSocialType;
+	label?: string;
+}
+
 export interface TeamMember {
 	name: string;
 	role: string;
 	description?: string;
 	avatar?: string;
 	tags: string[];
+	/** Optional social links; icons appear on card hover */
+	socials?: TeamMemberSocial[];
 }
 
 export interface TeamSection {
@@ -32,24 +43,39 @@ export const teamSections: TeamSection[] = [
 				role: 'Project Lead & Developer',
 				description: 'Placeholder',
 				tags: ['Lead', 'Development', 'Vision'],
-				avatar: '/images/posts/placeholder-1.webp'
+				avatar: '/images/posts/placeholder-1.webp',
 				// avatar: '/images/team/sora.webp'
+				socials: [
+					{ url: 'https://t.me/example', type: 'telegram', label: 'Telegram' },
+					{ url: 'https://github.com/example', type: 'github', label: 'GitHub' },
+					{ url: 'https://x.com/example', type: 'x', label: 'X' }
+				]
 			},
 			{
 				name: 'Tsu',
 				role: 'Community & Marketing Lead',
 				description: 'Placeholder',
 				tags: ['Lead', 'Marketing', 'Management'],
-				avatar: '/images/posts/placeholder-1.webp'
+				avatar: '/images/posts/placeholder-1.webp',
 				// avatar: '/images/team/tsu.webp'
+				socials: [
+					{ url: 'https://t.me/example', type: 'telegram', label: 'Telegram' },
+					{ url: 'https://github.com/example', type: 'github', label: 'GitHub' },
+					{ url: 'https://x.com/example', type: 'x', label: 'X' }
+				]
 			},
 			{
 				name: 'Myst',
 				role: 'Operations & Manager',
 				description: 'Placeholder',
 				tags: ['Lead', 'Finance', 'Development'],
-				avatar: '/images/posts/placeholder-1.webp'
+				avatar: '/images/posts/placeholder-1.webp',
 				// avatar: '/images/team/myst.webp'
+				socials: [
+					{ url: 'https://t.me/example', type: 'telegram', label: 'Telegram' },
+					{ url: 'https://github.com/example', type: 'github', label: 'GitHub' },
+					{ url: 'https://x.com/example', type: 'x', label: 'X' }
+				]
 			}
 		]
 	},
@@ -61,8 +87,13 @@ export const teamSections: TeamSection[] = [
 				name: 'Placeholder',
 				role: 'Administrator',
 				tags: ['Admin'],
-				avatar: '/images/posts/placeholder-1.webp'
-				// avatar: '/images/team/avatar.webp'
+				avatar: '/images/posts/placeholder-1.webp',
+				// avatar: '/images/team/avatar.webp',
+				socials: [
+					{ url: 'https://t.me/example', type: 'telegram', label: 'Telegram' },
+					{ url: 'https://github.com/example', type: 'github', label: 'GitHub' },
+					{ url: 'https://x.com/example', type: 'x', label: 'X' }
+				]
 			}
 		]
 	},
@@ -75,16 +106,25 @@ export const teamSections: TeamSection[] = [
 				role: 'Software Engineer',
 				description: 'Development',
 				tags: ['Developer', 'Systems'],
-				avatar: '/images/posts/placeholder-1.webp'
-				// avatar: '/images/team/jaykov.webp'
+				avatar: '/images/posts/placeholder-1.webp',
+				// avatar: '/images/team/jaykov.webp',
+				socials: [
+					{ url: 'https://t.me/example', type: 'telegram', label: 'Telegram' },
+					{ url: 'https://github.com/example', type: 'github', label: 'GitHub' },
+					{ url: 'https://x.com/example', type: 'x', label: 'X' }
+				]
 			},
 			{
 				name: 'Shunsui',
 				role: 'Development',
 				description: 'Development website',
 				tags: ['Developer', 'Backend'],
-				avatar: '/images/posts/placeholder-1.webp'
-				// avatar: '/images/team/shunsui.webp'
+				// avatar: '/images/posts/placeholder-1.webp',
+				avatar: '/images/team/shunsui.webp',
+				socials: [
+					{ url: 'https://t.me/example', type: 'telegram', label: 'Telegram' },
+					{ url: 'https://github.com/example', type: 'github', label: 'GitHub' }
+				]
 			}
 		]
 	},
@@ -97,32 +137,52 @@ export const teamSections: TeamSection[] = [
 				role: 'Assets',
 				description: 'Shinigami',
 				tags: ['Assets', '3D Models'],
-				avatar: '/images/posts/placeholder-1.webp'
-				// avatar: '/images/team/alba.webp'
+				avatar: '/images/posts/placeholder-1.webp',
+				// avatar: '/images/team/alba.webp',
+				socials: [
+					{ url: 'https://t.me/example', type: 'telegram', label: 'Telegram' },
+					{ url: 'https://github.com/example', type: 'github', label: 'GitHub' },
+					{ url: 'https://x.com/example', type: 'x', label: 'X' }
+				]
 			},
 			{
 				name: 'BenSmash',
 				role: 'Assets',
 				description: 'The blind Shinigami',
 				tags: ['Assets', '3D Models'],
-				avatar: '/images/posts/placeholder-1.webp'
-				// avatar: '/images/team/bensmash.webp'
+				avatar: '/images/posts/placeholder-1.webp',
+				// avatar: '/images/team/bensmash.webp',
+				socials: [
+					{ url: 'https://t.me/example', type: 'telegram', label: 'Telegram' },
+					{ url: 'https://github.com/example', type: 'github', label: 'GitHub' },
+					{ url: 'https://x.com/example', type: 'x', label: 'X' }
+				]
 			},
 			{
 				name: 'Gourmet',
 				role: 'Assets',
 				description: 'Fuck Ichigo',
 				tags: ['Assets', '3D Models'],
-				avatar: '/images/posts/placeholder-1.webp'
-				// avatar: '/images/team/gourmet.webp'
+				avatar: '/images/posts/placeholder-1.webp',
+				// avatar: '/images/team/gourmet.webp',
+				socials: [
+					{ url: 'https://t.me/example', type: 'telegram', label: 'Telegram' },
+					{ url: 'https://github.com/example', type: 'github', label: 'GitHub' },
+					{ url: 'https://x.com/example', type: 'x', label: 'X' }
+				]
 			},
 			{
 				name: 'Placeholder',
 				role: 'Assets',
 				description: 'The Wandering Shinigami',
 				tags: ['Assets', '3D Models'],
-				avatar: '/images/posts/placeholder-1.webp'
-				// avatar: '/images/team/avatar.webp'
+				avatar: '/images/posts/placeholder-1.webp',
+				// avatar: '/images/team/avatar.webp',
+				socials: [
+					{ url: 'https://t.me/example', type: 'telegram', label: 'Telegram' },
+					{ url: 'https://github.com/example', type: 'github', label: 'GitHub' },
+					{ url: 'https://x.com/example', type: 'x', label: 'X' }
+				]
 			}
 		]
 	}

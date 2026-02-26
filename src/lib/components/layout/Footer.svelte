@@ -107,13 +107,17 @@
 
 	.col-left {
 		text-align: left;
+
+		@include for-phone-only {
+			text-align: center;
+		}
 	}
 
 	.col-right {
 		text-align: right;
 
 		@include for-phone-only {
-			text-align: left;
+			text-align: center;
 			border-top: 1px solid rgba(var(--color--primary-rgb), 0.15);
 			padding-top: 1rem;
 		}
@@ -177,7 +181,7 @@
 		gap: 20px;
 
 		@include for-phone-only {
-			justify-content: flex-start;
+			justify-content: center;
 			gap: 14px;
 		}
 
@@ -190,7 +194,7 @@
 		justify-content: flex-end;
 
 		@include for-phone-only {
-			justify-content: flex-start;
+			justify-content: center;
 		}
 	}
 </style>

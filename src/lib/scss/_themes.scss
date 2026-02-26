@@ -37,6 +37,11 @@
 	--color--team-card-avatar-bg: #e8e4e8;
 	--color--team-badge-bg: rgba(230, 24, 96, 0.12);
 	--color--team-badge-text: #c41050;
+
+	--color--team-card-text: rgba(228, 228, 228, 1);
+	--color--team-card-panel-from: rgba(var(--color--code-background-rgb), 0.92);
+	--color--team-card-panel-to: rgba(var(--color--code-background-rgb), 0.32);
+	--color--team-card-panel-badge-bg: rgba(255, 255, 255, 0.15);
 }
 
 @mixin dark-theme {
@@ -67,6 +72,11 @@
 	--color--team-card-avatar-bg: #1e2028;
 	--color--team-badge-bg: rgba(163, 13, 84, 0.35);
 	--color--team-badge-text: #e55789;
+
+	--color--team-card-text: rgba(112, 112, 112, 1);
+	--color--team-card-panel-from: rgba(28, 28, 31, 0.98);
+	--color--team-card-panel-to: rgba(28, 28, 31, 0.48);
+	--color--team-card-panel-badge-bg: rgba(255, 255, 255, 0.32);
 }
 
 :root {

@@ -313,7 +313,7 @@
 		.tag {
 			padding: 4px 10px;
 			border-radius: 8px;
-			font-size: 0.75rem;
+			@include fluid-text(0.6875rem, 0.8125rem);
 			background: var(--color--team-badge-bg);
 			color: var(--color--team-badge-text);
 		}
