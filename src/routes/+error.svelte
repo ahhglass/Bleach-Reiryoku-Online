@@ -13,6 +13,11 @@
 	);
 </script>
 
+<svelte:head>
+	<title>{title}</title>
+	<meta name="robots" content="noindex, nofollow" />
+</svelte:head>
+
 <div class="error-page">
 	<div class="container">
 		<h1>{title}</h1>

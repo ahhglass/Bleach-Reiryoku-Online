@@ -7,7 +7,11 @@
 	import '@fontsource/merriweather';
 	import '@fontsource/merriweather/900.css';
 	import '@fontsource/ubuntu-mono';
+	import { page } from '$app/stores';
 	import { description, image, keywords, title, siteBaseUrl } from '$lib/data/meta';
+
+	// Base URL without trailing slash (for canonical and og:url)
+	const baseUrl = siteBaseUrl.replace(/\/$/, '');
 	import Header from '$layout/Header.svelte';
 	import Waves from '$layout/Waves.svelte';
 	import Footer from '$layout/Footer.svelte';
@@ -60,17 +64,24 @@
 </div>
 
 <svelte:head>
-	<link rel="canonical" href={siteBaseUrl} />
-	<meta name="keywords" content={keywords.join(', ')} />
-	<meta name="description" content={description} />
-	<meta property="og:description" content={description} />
-	<meta name="twitter:description" content={description} />
-	<title>{title}</title>
-	<meta property="og:title" content={title} />
-	<meta name="twitter:title" content={title} />
-	<meta property="og:image" content={image} />
-	<meta name="twitter:image" content={image} />
-	<meta name="twitter:card" content="summary_large_image" />
+	{#if true}
+		{@const pathname = $page.url.pathname || '/'}
+		{@const canonicalUrl = pathname === '/' ? `${baseUrl}/` : `${baseUrl}${pathname}`}
+		<link rel="canonical" href={canonicalUrl} />
+		<meta name="keywords" content={keywords.join(', ')} />
+		<meta name="description" content={description} />
+		<meta property="og:description" content={description} />
+		<meta property="og:url" content={canonicalUrl} />
+		<meta property="og:type" content="website" />
+		<meta property="og:site_name" content={title} />
+		<meta name="twitter:description" content={description} />
+		<title>{title}</title>
+		<meta property="og:title" content={title} />
+		<meta name="twitter:title" content={title} />
+		<meta property="og:image" content={image} />
+		<meta name="twitter:image" content={image} />
+		<meta name="twitter:card" content="summary_large_image" />
+	{/if}
 </svelte:head>
 
 <style lang="scss">

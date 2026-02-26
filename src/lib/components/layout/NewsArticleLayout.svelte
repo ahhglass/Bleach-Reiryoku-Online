@@ -51,13 +51,12 @@
 	<meta name="description" content={post.excerpt} />
 	<meta property="og:description" content={post.excerpt} />
 	<meta name="twitter:description" content={post.excerpt} />
-	<link rel="canonical" href="{siteBaseUrl}news/{post.slug}" />
 	<title>{post.title} — {siteTitle}</title>
 	<meta property="og:title" content="{post.title} — {siteTitle}" />
 	<meta name="twitter:title" content="{post.title} — {siteTitle}" />
 	{#if post.coverImage}
-		<meta property="og:image" content="{siteBaseUrl.replace(/\/$/, '')}{post.coverImage}" />
-		<meta name="twitter:image" content="{siteBaseUrl.replace(/\/$/, '')}{post.coverImage}" />
+		<meta property="og:image" content="{post.coverImage.startsWith('http') ? post.coverImage : siteBaseUrl.replace(/\/$/, '') + (post.coverImage.startsWith('/') ? post.coverImage : '/' + post.coverImage)}" />
+		<meta name="twitter:image" content="{post.coverImage.startsWith('http') ? post.coverImage : siteBaseUrl.replace(/\/$/, '') + (post.coverImage.startsWith('/') ? post.coverImage : '/' + post.coverImage)}" />
 	{/if}
 </svelte:head>
 
