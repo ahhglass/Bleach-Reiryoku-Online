@@ -106,8 +106,7 @@ export const teamSections: TeamSection[] = [
 				role: 'Software Engineer',
 				description: 'Development',
 				tags: ['Developer', 'Systems'],
-				avatar: '/images/posts/placeholder-1.webp',
-				// avatar: '/images/team/jaykov.webp',
+				avatar: '/images/team/jaykov.webp',
 				socials: [
 					{ url: 'https://t.me/example', type: 'telegram', label: 'Telegram' },
 					{ url: 'https://github.com/example', type: 'github', label: 'GitHub' },
@@ -119,7 +118,6 @@ export const teamSections: TeamSection[] = [
 				role: 'Development',
 				description: 'Development website',
 				tags: ['Developer', 'Backend'],
-				// avatar: '/images/posts/placeholder-1.webp',
 				avatar: '/images/team/shunsui.webp',
 				socials: [
 					{ url: 'https://t.me/example', type: 'telegram', label: 'Telegram' },

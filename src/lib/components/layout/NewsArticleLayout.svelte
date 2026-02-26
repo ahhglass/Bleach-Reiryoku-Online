@@ -76,7 +76,7 @@
 				<h1>{post.title}</h1>
 				<div class="note">Published on {dateformat(post.date, 'UTC:dd mmmm yyyy')}</div>
 				{#if post.updated}
-					<div class="note">Updated on {dateformat(post.updated, 'UTC:dd mmmm yyyy')}</div>
+					<div class="note secondary-note">Updated on {dateformat(post.updated, 'UTC:dd mmmm yyyy')}</div>
 				{/if}
 				{#if post.readingTime}
 					<div class="note">{post.readingTime}</div>
@@ -261,6 +261,11 @@
 			.note {
 				@include fluid-text(0.8125rem, 0.9rem);
 				color: rgba(var(--color--text-rgb), 0.8);
+			}
+			.secondary-note {
+				opacity: 0.4;
+				margin-top: -0.75em;
+				@include fluid-text(0.65rem, 0.85rem);
 			}
 		}
 

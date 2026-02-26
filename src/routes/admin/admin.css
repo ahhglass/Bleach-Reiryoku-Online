@@ -570,6 +570,11 @@
 	margin: 0 0 0.35rem;
 }
 
+.italic{
+	font-style: italic;
+	opacity: 0.35;
+}
+
 /* ——— Mobile (tablet) ——— */
 @media (max-width: 768px) {
 	.admin-header {

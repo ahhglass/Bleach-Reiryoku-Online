@@ -171,7 +171,8 @@
 				<input id="new-date" name="date" type="datetime-local" />
 			</div>
 			<div>
-				<label for="new-updated">Updated (optional)</label>
+				<label for="new-updated">Updated <span class="italic"> | Leave empty to use current time on save</span></label>
+				
 				<input id="new-updated" name="updated" type="datetime-local" />
 			</div>
 		</div>
@@ -264,6 +265,7 @@
 							</div>
 							<div>
 								<label for="edit-updated-{item.slug}">Updated</label>
+								<p class="hint">Leave empty to set to current time on save.</p>
 								<input id="edit-updated-{item.slug}" name="updated" type="datetime-local" bind:value={editUpdated} />
 							</div>
 						</div>
