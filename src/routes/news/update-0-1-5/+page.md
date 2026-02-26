@@ -3,7 +3,7 @@ slug: update-0-1-5
 title: Update 0.1.5 — Kenpachi's Zanpakuto & Hollows
 date: 2026-02-16T12:00:00.000Z
 excerpt: Kenpachi's Zanpakuto, six Hollow-type mobs, Bare Shoulder Shinigami Robes, and crafting recipe overhauls.
-coverImage: /images/posts/placeholder.webp
+coverImage: /images/posts/kenpachi.webp
 tags:
   - Patchnotes
   - 0.1.5

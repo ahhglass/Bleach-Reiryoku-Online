@@ -321,7 +321,7 @@
 
 	.related {
 		margin-top: 2rem;
-		padding: 0 15px 80px;
+		padding: 0 15px 30px;
 
 		@include for-phone-only {
 			padding-left: 12px;

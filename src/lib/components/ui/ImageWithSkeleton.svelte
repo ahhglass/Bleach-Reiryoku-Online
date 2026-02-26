@@ -29,6 +29,10 @@
 	function onLoad() {
 		loaded = true;
 	}
+
+	function onError() {
+		loaded = true;
+	}
 </script>
 
 <div
@@ -48,6 +52,7 @@
 		decoding={decoding}
 		fetchpriority={fetchpriority}
 		onload={onLoad}
+		onerror={onError}
 		class="img"
 		class:loaded
 	/>

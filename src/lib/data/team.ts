@@ -32,21 +32,24 @@ export const teamSections: TeamSection[] = [
 				role: 'Project Lead & Developer',
 				description: 'Placeholder',
 				tags: ['Lead', 'Development', 'Vision'],
-				avatar: 'https://placehold.co/400x600/b0b0b0/ffffff.webp?text=400%20x%20600&font=inter'
+				avatar: '/images/posts/placeholder-1.webp'
+				// avatar: '/images/team/sora.webp'
 			},
 			{
 				name: 'Tsu',
 				role: 'Community & Marketing Lead',
 				description: 'Placeholder',
 				tags: ['Lead', 'Marketing', 'Management'],
-				avatar: 'https://placehold.co/400x600/b0b0b0/ffffff.webp?text=400%20x%20600&font=inter'
+				avatar: '/images/posts/placeholder-1.webp'
+				// avatar: '/images/team/tsu.webp'
 			},
 			{
 				name: 'Myst',
 				role: 'Operations & Manager',
 				description: 'Placeholder',
 				tags: ['Lead', 'Finance', 'Development'],
-				avatar: 'https://placehold.co/400x600/b0b0b0/ffffff.webp?text=400%20x%20600&font=inter'
+				avatar: '/images/posts/placeholder-1.webp'
+				// avatar: '/images/team/myst.webp'
 			}
 		]
 	},
@@ -58,7 +61,8 @@ export const teamSections: TeamSection[] = [
 				name: 'Placeholder',
 				role: 'Administrator',
 				tags: ['Admin'],
-				avatar: 'https://placehold.co/400x600/b0b0b0/ffffff.webp?text=400%20x%20600&font=inter'
+				avatar: '/images/posts/placeholder-1.webp'
+				// avatar: '/images/team/avatar.webp'
 			}
 		]
 	},
@@ -71,14 +75,16 @@ export const teamSections: TeamSection[] = [
 				role: 'Software Engineer',
 				description: 'Development',
 				tags: ['Developer', 'Systems'],
-				avatar: 'https://placehold.co/400x600/b0b0b0/ffffff.webp?text=400%20x%20600&font=inter'
+				avatar: '/images/posts/placeholder-1.webp'
+				// avatar: '/images/team/jaykov.webp'
 			},
 			{
 				name: 'Shunsui',
 				role: 'Development',
 				description: 'Development website',
 				tags: ['Developer', 'Backend'],
-				avatar: 'https://placehold.co/400x600/b0b0b0/ffffff.webp?text=400%20x%20600&font=inter'
+				avatar: '/images/posts/placeholder-1.webp'
+				// avatar: '/images/team/shunsui.webp'
 			}
 		]
 	},
@@ -91,28 +97,32 @@ export const teamSections: TeamSection[] = [
 				role: 'Assets',
 				description: 'Shinigami',
 				tags: ['Assets', '3D Models'],
-				avatar: 'https://placehold.co/400x600/b0b0b0/ffffff.webp?text=400%20x%20600&font=inter'
+				avatar: '/images/posts/placeholder-1.webp'
+				// avatar: '/images/team/alba.webp'
 			},
 			{
 				name: 'BenSmash',
 				role: 'Assets',
 				description: 'The blind Shinigami',
 				tags: ['Assets', '3D Models'],
-				avatar: 'https://placehold.co/400x600/b0b0b0/ffffff.webp?text=400%20x%20600&font=inter'
+				avatar: '/images/posts/placeholder-1.webp'
+				// avatar: '/images/team/bensmash.webp'
 			},
 			{
 				name: 'Gourmet',
 				role: 'Assets',
 				description: 'Fuck Ichigo',
 				tags: ['Assets', '3D Models'],
-				avatar: 'https://placehold.co/400x600/b0b0b0/ffffff.webp?text=400%20x%20600&font=inter'
+				avatar: '/images/posts/placeholder-1.webp'
+				// avatar: '/images/team/gourmet.webp'
 			},
 			{
 				name: 'Placeholder',
 				role: 'Assets',
 				description: 'The Wandering Shinigami',
 				tags: ['Assets', '3D Models'],
-				avatar: 'https://placehold.co/400x600/b0b0b0/ffffff.webp?text=400%20x%20600&font=inter'
+				avatar: '/images/posts/placeholder-1.webp'
+				// avatar: '/images/team/avatar.webp'
 			}
 		]
 	}

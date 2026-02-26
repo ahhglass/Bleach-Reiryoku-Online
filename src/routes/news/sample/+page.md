@@ -3,7 +3,7 @@ slug: sample
 title: Welcome to BRO News
 date: 2026-02-25T12:00:00.000Z
 excerpt: The News section for Bleach Reiryoku Online — project updates, patch notes, and announcements.
-coverImage: /images/posts/placeholder.webp
+coverImage: /images/posts/welcome.gif
 tags:
   - BRO
   - News

@@ -3,7 +3,7 @@ slug: update-0-1-4
 title: Update 0.1.4 — Wabisuke, Economy & Banners
 date: 2026-02-08T12:00:00.000Z
 excerpt: Wabisuke, Captain Robes, Wandering Shinigami merchant, Kan currency, Medical Pills, Gotei 13 Banners, and balance fixes.
-coverImage: /images/posts/placeholder.webp
+coverImage: /images/posts/wabisuke.webp
 tags:
   - Patchnotes
   - 0.1.4

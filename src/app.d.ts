@@ -20,4 +20,9 @@ declare module 'three' {
 	export default three;
 }
 
+declare module 'reading-time/lib/reading-time' {
+	function readingTime(text: string): { text: string; minutes: number; time: number; words: number };
+	export default readingTime;
+}
+
 export {};

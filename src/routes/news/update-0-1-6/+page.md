@@ -3,7 +3,7 @@ slug: update-0-1-6
 title: Update 0.1.6 — Kojaku & Quincy
 date: 2026-02-24T12:00:00.000Z
 excerpt: Kojaku (Quincy Bow), Four Point Quincy Cross, Hollow Essence, and a host of balance and craft changes.
-coverImage: /images/posts/placeholder.webp
+coverImage: /images/posts/kojaku.webp
 tags:
   - Patchnotes
   - 0.1.6

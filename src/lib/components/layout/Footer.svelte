@@ -3,6 +3,8 @@
 	import Socials from '$blocks/Socials.svelte';
 	import ThemeToggle from '$blocks/ThemeToggle.svelte';
 	import RssLink from '$ui/RssLink.svelte';
+
+	const currentYear = new Date().getFullYear();
 </script>
 
 <footer>
@@ -10,22 +12,30 @@
 		<FooterWave />
 	</div>
 	<div class="content">
-		<div class="copyright">
-			This website was built by
-			<a href="https://discord.gg/upnNsnvPyf" target="_blank" rel="noopener noreferrer"
-				>Reiryoku Team</a
-			>.
+		<div class="col col-left">
+			<p class="copyright">
+				© {currentYear}
+				<a href="https://discord.gg/upnNsnvPyf" target="_blank" rel="noopener noreferrer"
+					>Reiryoku Team</a
+				> <br>This site is fan-made and not affiliated with Bleach or Hytale rights holders
+			</p>
+			<p class="disclaimer">
+				Bleach © Tite Kubo / Shueisha. Hytale © Hypixel Studios. We do not claim ownership of these
+				properties
+			</p>
 		</div>
-		<div class="credits">
-			Powered by
-			<a href="https://kit.svelte.dev/" target="_blank" rel="noopener noreferrer">SvelteKit</a>. Icons
-			by
-			<a href="https://iconoir.com/" target="_blank" rel="noopener noreferrer">Iconoir</a>.
-		</div>
-		<div id="socials" class="socials">
-			<Socials />
-			<RssLink />
-			<ThemeToggle />
+		<div class="col col-right">
+			<p class="credits">
+				Site built with
+				<a href="https://kit.svelte.dev/" target="_blank" rel="noopener noreferrer">SvelteKit</a>
+				Icons by
+				<a href="https://iconoir.com/" target="_blank" rel="noopener noreferrer">Iconoir</a>
+			</p>
+			<div id="socials" class="socials">
+				<Socials />
+				<RssLink />
+				<ThemeToggle />
+			</div>
 		</div>
 	</div>
 </footer>
@@ -61,41 +71,68 @@
 	}
 
 	.wave {
-		overflow: hidden;
+		overflow: hidden;	
 	}
 
 	.content {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		gap: 15px;
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		align-items: start;
+		justify-content: space-between;
+		gap: 1.5rem 2rem;
 		font-weight: 600;
-		text-align: center;
-		padding: 0 1rem 1.5rem;
+		padding: 0.5em 1.25rem 0.75rem;
+		max-width: 1080px;
+		margin: 0 auto;
 		box-sizing: border-box;
 
 		@include for-phone-only {
-			gap: 10px;
-			padding: 0 0.75rem 1.25rem;
+			grid-template-columns: 1fr;
+			gap: 1.25rem;
+			padding: 0.5em 0.75rem 1.25rem;
 		}
 
 		@include for-iphone-se {
-			gap: 8px;
+			gap: 1rem;
 			padding: 0 0.5rem 1rem;
 		}
 	}
 
+	.col {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+		min-width: 0;
+	}
+
+	.col-left {
+		text-align: left;
+	}
+
+	.col-right {
+		text-align: right;
+
+		@include for-phone-only {
+			text-align: left;
+			border-top: 1px solid rgba(var(--color--primary-rgb), 0.15);
+			padding-top: 1rem;
+		}
+	}
+
 	.copyright,
+	.disclaimer,
 	.credits {
 		max-width: 100%;
+		margin: 0;
 		word-break: break-word;
 		overflow-wrap: break-word;
+		line-height: 1.5;
 		@include fluid-text(0.875rem, 1rem);
-		line-height: 1.45;
 	}
 
 	.copyright {
+		font-weight: 600;
+
 		@include for-phone-only {
 			font-size: 0.8125rem;
 		}
@@ -105,9 +142,23 @@
 		}
 	}
 
+	.disclaimer {
+		font-weight: 400;
+		font-size: 0.8125rem;
+		color: var(--color--text-shade);
+
+		@include for-phone-only {
+			font-size: 0.75rem;
+		}
+
+		@include for-iphone-se {
+			font-size: 0.6875rem;
+		}
+	}
+
 	.credits {
 		font-weight: 400;
-		font-size: 90%;
+		font-size: 0.875rem;
 		color: var(--color--text-shade);
 
 		@include for-phone-only {
@@ -123,15 +174,23 @@
 		display: flex;
 		flex-wrap: wrap;
 		align-items: center;
-		justify-content: center;
 		gap: 20px;
 
 		@include for-phone-only {
+			justify-content: flex-start;
 			gap: 14px;
 		}
 
 		@include for-iphone-se {
 			gap: 12px;
+		}
+	}
+
+	.col-right .socials {
+		justify-content: flex-end;
+
+		@include for-phone-only {
+			justify-content: flex-start;
 		}
 	}
 </style>
