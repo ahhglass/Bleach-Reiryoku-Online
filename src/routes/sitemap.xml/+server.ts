@@ -1,7 +1,6 @@
 import { filteredNews } from '$lib/data/news-posts';
 import { siteBaseUrl } from '$lib/data/meta';
-
-export const prerender = true;
+import { getSupabaseServer } from '$lib/supabaseServer';
 
 function escapeXml(unsafe: string): string {
 	return unsafe
@@ -13,7 +12,18 @@ function escapeXml(unsafe: string): string {
 }
 
 export async function GET() {
-	const base = siteBaseUrl.replace(/\/$/, '');
+	let base = siteBaseUrl.replace(/\/$/, '');
+	try {
+		const supabase = getSupabaseServer();
+		const { data } = await supabase.from('site_settings').select('key, value');
+		if (data?.length) {
+			const map = Object.fromEntries((data as { key: string; value: string }[]).map((r) => [r.key, r.value]));
+			const url = (map.site_base_url ?? '').trim().replace(/\/$/, '');
+			if (url) base = url;
+		}
+	} catch {
+		// keep meta fallback
+	}
 	const staticPages = [
 		{ url: `${base}/`, priority: '1.0', changefreq: 'weekly' as const },
 		{ url: `${base}/news`, priority: '0.9', changefreq: 'daily' as const },

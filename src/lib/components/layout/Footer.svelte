@@ -6,7 +6,27 @@
 	import VolumeControl from '$ui/VolumeControl.svelte';
 	import { sound } from '$lib/utils/sound';
 
+	import type { SocialLinkItem } from '$lib/utils/types';
+
+	interface Props {
+		teamLabel?: string;
+		teamUrl?: string;
+		/** Second line of copyright (after team link). */
+		slogan?: string;
+		disclaimer?: string;
+		socialLinks?: SocialLinkItem[];
+	}
+	let { teamLabel = '', teamUrl = '', slogan = '', disclaimer = '', socialLinks = [] }: Props = $props();
+
 	const currentYear = new Date().getFullYear();
+	const hasTeamLink = $derived(teamUrl?.trim().length > 0);
+	const teamText = $derived(teamLabel?.trim() || 'Team');
+	const sloganText = $derived(
+		slogan?.trim() || 'Fan-made site. Not affiliated with rights holders.'
+	);
+	const disclaimerText = $derived(
+		disclaimer?.trim() || 'Bleach © Tite Kubo / Shueisha. Hytale © Hypixel Studios. We do not claim ownership.'
+	);
 </script>
 
 <footer>
@@ -17,13 +37,17 @@
 		<div class="col col-left">
 			<p class="copyright">
 				© {currentYear}
-				<a href="https://discord.gg/upnNsnvPyf" target="_blank" rel="noopener noreferrer" use:sound
-					>Reiryoku Team</a
-				> <br>This site is fan-made and not affiliated with Bleach or Hytale rights holders
+				{#if hasTeamLink}
+					<a href={teamUrl} target="_blank" rel="noopener noreferrer" use:sound>{teamText}</a>
+				{:else}
+					{teamText}
+				{/if}
+				{#if sloganText}
+					<br>{sloganText}
+				{/if}
 			</p>
 			<p class="disclaimer">
-				Bleach © Tite Kubo / Shueisha. Hytale © Hypixel Studios. We do not claim ownership of these
-				properties
+				{disclaimerText}
 			</p>
 		</div>
 		<div class="col col-right">
@@ -34,7 +58,7 @@
 				<a href="https://iconoir.com/" target="_blank" rel="noopener noreferrer" use:sound>Iconoir</a>
 			</p>
 			<div id="socials" class="socials">
-				<Socials />
+				<Socials items={socialLinks} />
 				<RssLink />
 				<VolumeControl />
 				<ThemeToggle />

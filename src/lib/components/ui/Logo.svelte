@@ -1,9 +1,12 @@
 <script lang="ts">
-	/** BRO logo with optional stroke animation (matches blog template). */
+	/** Site logo with optional stroke animation. Text from Admin → Settings (site_title). */
 	interface Props {
 		animated?: boolean;
+		/** From DB (site_title). Fallback when empty. */
+		siteTitle?: string;
 	}
-	let { animated = true }: Props = $props();
+	let { animated = true, siteTitle = '' }: Props = $props();
+	const label = $derived(siteTitle?.trim() || 'BRO');
 </script>
 
 <div class="logo" class:animated>
@@ -22,7 +25,7 @@
 			class="logo-text"
 		>
 			<tspan x="275.57227" y="292.17088" id="tspan1319">
-				<tspan class="logo-brand" id="tspan1317">BRO</tspan>
+				<tspan class="logo-brand" id="tspan1317">{label}</tspan>
 			</tspan>
 		</text>
 	</svg>

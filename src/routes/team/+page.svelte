@@ -1,16 +1,17 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import TeamMemberCard from '$blocks/TeamMemberCard.svelte';
-	import { title as siteTitle } from '$lib/data/meta';
 	import type { TeamSection } from '$lib/data/team';
+	import type { SiteSettings } from '../+layout.server';
 
 	interface Props {
-		data: { sections?: TeamSection[] };
+		data: { settings?: SiteSettings | null; sections?: TeamSection[] };
 	}
 
 	let { data }: Props = $props();
 
 	const sections = $derived(data?.sections ?? []);
+	const siteTitle = $derived(data?.settings?.site_title ?? '');
 
 	// CSS animation runs after hydration (Svelte transitions don't fire on SSR)
 	let mounted = $state(false);
@@ -21,12 +22,12 @@
 
 <svelte:head>
 	<title>Team — {siteTitle}</title>
-	<meta name="description" content="Meet the team behind the Bleach-inspired RPG for Hytale." />
+	<meta name="description" content="Meet the team." />
 </svelte:head>
 
 <div class="container team-page">
 	<header class="team-header">
-		<p class="label">Meet Our</p>
+		<p class="label">MEET OUR</p>
 		<h1 class="title">Team</h1>
 	</header>
 

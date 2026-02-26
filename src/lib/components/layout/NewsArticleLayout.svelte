@@ -2,7 +2,7 @@
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
 	import dateformat from 'dateformat';
-	import { keywords, siteBaseUrl, title as siteTitle } from '$lib/data/meta';
+	import { keywords } from '$lib/data/meta';
 	import type { NewsPost } from '$lib/utils/types';
 	import ImageWithSkeleton from '$ui/ImageWithSkeleton.svelte';
 	import NewsCard from '$blocks/NewsCard.svelte';
@@ -11,10 +11,16 @@
 
 	interface Props {
 		post: NewsPost;
+		/** From DB (Admin → Settings). */
+		siteTitle?: string;
+		/** From DB. Used for og:image URL. */
+		siteBaseUrl?: string;
 		children: import('svelte').Snippet;
 	}
 
-	let { post, children }: Props = $props();
+	let { post, siteTitle = '', siteBaseUrl = '', children }: Props = $props();
+
+	const baseUrl = $derived((siteBaseUrl || '').replace(/\/$/, ''));
 
 	let mounted = $state(false);
 
@@ -56,8 +62,8 @@
 	<meta property="og:title" content="{post.title} — {siteTitle}" />
 	<meta name="twitter:title" content="{post.title} — {siteTitle}" />
 	{#if post.coverImage}
-		<meta property="og:image" content="{post.coverImage.startsWith('http') ? post.coverImage : siteBaseUrl.replace(/\/$/, '') + (post.coverImage.startsWith('/') ? post.coverImage : '/' + post.coverImage)}" />
-		<meta name="twitter:image" content="{post.coverImage.startsWith('http') ? post.coverImage : siteBaseUrl.replace(/\/$/, '') + (post.coverImage.startsWith('/') ? post.coverImage : '/' + post.coverImage)}" />
+		<meta property="og:image" content="{post.coverImage.startsWith('http') ? post.coverImage : baseUrl + (post.coverImage.startsWith('/') ? post.coverImage : '/' + post.coverImage)}" />
+		<meta name="twitter:image" content="{post.coverImage.startsWith('http') ? post.coverImage : baseUrl + (post.coverImage.startsWith('/') ? post.coverImage : '/' + post.coverImage)}" />
 	{/if}
 </svelte:head>
 
@@ -273,7 +279,6 @@
 			width: min(var(--main-column-width), 100%);
 			margin: 0 auto;
 			max-height: 400px;
-			box-shadow: var(--image-shadow);
 			border-radius: 6px;
 
 			:global(.image-with-skeleton.cover-img) {

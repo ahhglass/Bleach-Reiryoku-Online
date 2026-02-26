@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { title as siteTitle } from '$lib/data/meta';
 	import Hero from '$layout/Hero.svelte';
 	import About from '$layout/About.svelte';
 	import type { SiteSettings } from './+layout.server';
+	import { parseSocialLinks } from '$lib/utils/types';
 
 	interface Props {
 		data: { settings?: SiteSettings | null };
@@ -10,9 +10,15 @@
 
 	let { data }: Props = $props();
 
-	const title = $derived(data?.settings?.site_title ?? siteTitle);
+	const title = $derived(data?.settings?.site_title ?? '');
 	const heroTitle = $derived(data?.settings?.hero_title ?? '');
 	const heroSubtitle = $derived(data?.settings?.hero_subtitle ?? '');
+	const siteDescription = $derived(data?.settings?.site_description ?? '');
+	const aboutHeading = $derived(data?.settings?.about_heading ?? '');
+	const aboutHighlight = $derived(data?.settings?.about_highlight ?? '');
+	const aboutText = $derived(data?.settings?.about_text ?? '');
+	const aboutImage = $derived(data?.settings?.about_image ?? '');
+	const socialLinks = $derived(parseSocialLinks(data?.settings?.social_links));
 </script>
 
 <svelte:head>
@@ -21,7 +27,15 @@
 
 <div class="container">
 	<Hero heroTitle={heroTitle || undefined} heroSubtitle={heroSubtitle || undefined} />
-	<About />
+	<About
+		aboutHeading={aboutHeading}
+		aboutHighlight={aboutHighlight}
+		aboutText={aboutText}
+		aboutImage={aboutImage}
+		siteTitle={title}
+		siteDescription={siteDescription}
+		socialLinks={socialLinks}
+	/>
 </div>
 
 <style lang="scss">

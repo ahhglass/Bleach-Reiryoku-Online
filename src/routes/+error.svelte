@@ -6,10 +6,11 @@
 	const error = $derived($page.error);
 
 	const title = $derived(status === 404 ? 'Error 404' : 'Error');
+	// "This page was lost in the Soul Society. It can't be displayed." / "It seems like coffee was spilled..."
 	const message = $derived(
 		status === 404
-			? "This page was lost in the Soul Society. It can't be displayed."
-			: "It seems like coffee was spilled all over this page, and now it can't be displayed."
+			? "This page can't be displayed."
+			: "Something went wrong. This page can't be displayed."
 	);
 </script>
 

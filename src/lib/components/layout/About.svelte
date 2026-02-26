@@ -3,7 +3,47 @@
 	import SparklingHighlight from '$blocks/SparklingHighlight.svelte';
 	import Socials from '$blocks/Socials.svelte';
 
-	const aboutImageSrc = '/images/sample-image.webp';
+	interface Props {
+		/** From DB (about_heading). Fallback when empty. */
+		aboutHeading?: string;
+		/** From DB (about_highlight). Phrase in heading to wrap in sparkle; must match exactly. */
+		aboutHighlight?: string;
+		/** From DB (about_text). Fallback when empty. */
+		aboutText?: string;
+		/** From DB (about_image). Fallback when empty. */
+		aboutImage?: string;
+		/** Legacy: from DB (site_title) when about_heading empty. */
+		siteTitle?: string;
+		/** Legacy: from DB (site_description) when about_text empty. */
+		siteDescription?: string;
+		/** From DB (social_links JSON). */
+		socialLinks?: import('$lib/utils/types').SocialLinkItem[];
+	}
+	let {
+		aboutHeading = '',
+		aboutHighlight = '',
+		aboutText = '',
+		aboutImage = '',
+		siteTitle = '',
+		siteDescription = '',
+		socialLinks = []
+	}: Props = $props();
+
+	const heading = $derived(aboutHeading?.trim() || siteTitle?.trim() || 'About');
+	const highlightPhrase = $derived(aboutHighlight?.trim() || '');
+	const headingParts = $derived(
+		highlightPhrase && heading.includes(highlightPhrase)
+			? (() => {
+					const i = heading.indexOf(highlightPhrase);
+					return [heading.slice(0, i), highlightPhrase, heading.slice(i + highlightPhrase.length)];
+				})()
+			: null
+	);
+	const text = $derived(aboutText?.trim() || siteDescription?.trim() || 'Site description is set in Admin → Settings.');
+	const aboutImageSrc = $derived(aboutImage?.trim() || '/images/sample-image.webp');
+	const aboutImageUrl = $derived(
+		aboutImageSrc.startsWith('http') || aboutImageSrc.startsWith('/') ? aboutImageSrc : '/' + aboutImageSrc.replace(/^\//, '')
+	);
 	let imageRef: HTMLDivElement;
 	let inView = $state(false);
 
@@ -22,26 +62,29 @@
 <section id="about">
 	<div class="info">
 		<h2>
-			Bleach Reiryoku Online —
-			<SparklingHighlight color="secondary">Soul Reaper</SparklingHighlight>
-			path in Hytale
+			{#if headingParts}
+				{headingParts[0]}
+				<SparklingHighlight color="secondary">{headingParts[1]}</SparklingHighlight>
+				{headingParts[2]}
+			{:else}
+				<SparklingHighlight color="secondary">{heading}</SparklingHighlight>
+			{/if}
 		</h2>
 		<p>
-			BRO brings the Bleach universe to Hytale: awaken Zanpakuto, master Shikai and Bankai,
-			and join the Reiryoku Team on this fan-made RPG journey.
+			{text}
 		</p>
 		<div class="socials">
 			<span>Socials:</span>
-			<Socials />
+			<Socials items={socialLinks} />
 		</div>
 	</div>
 	<div
 		class="image {inView ? 'in-view' : ''}"
 		bind:this={imageRef}
-		style="--about-img: url('{aboutImageSrc}')"
+		style="--about-img: url('{aboutImageUrl}')"
 	>
 		<div class="glitch-wrap">
-			<img src={aboutImageSrc} alt="Bleach Reiryoku Online — BRO" loading="lazy" decoding="async" />
+			<img src={aboutImageUrl} alt="About" loading="lazy" decoding="async" />
 			<span class="glitch glitch-r" aria-hidden="true"></span>
 			<span class="glitch glitch-g" aria-hidden="true"></span>
 		</div>

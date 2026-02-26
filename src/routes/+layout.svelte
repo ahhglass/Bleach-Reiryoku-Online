@@ -4,6 +4,7 @@
 	import { page } from '$app/stores';
 	import { description as defaultDesc, image as defaultImage, keywords as defaultKeywords, title as defaultTitle, siteBaseUrl as defaultBaseUrl } from '$lib/data/meta';
 	import type { SiteSettings } from './+layout.server';
+	import { parseSocialLinks } from '$lib/utils/types';
 
 	interface Props {
 		data: { settings?: SiteSettings | null };
@@ -34,7 +35,12 @@
 			}
 		})()
 	);
-	const serverIp = $derived(data?.settings?.server_ip || '76.164.196.197:25565');
+	const serverIp = $derived(data?.settings?.server_ip || '');
+	const footerTeamLabel = $derived(data?.settings?.footer_team_label ?? '');
+	const footerTeamUrl = $derived(data?.settings?.footer_team_url ?? '');
+	const footerSlogan = $derived(data?.settings?.footer_slogan ?? '');
+	const footerDisclaimer = $derived(data?.settings?.footer_disclaimer ?? '');
+	const socialLinks = $derived(parseSocialLinks(data?.settings?.social_links));
 
 	import Header from '$layout/Header.svelte';
 	import Waves from '$layout/Waves.svelte';
@@ -66,6 +72,7 @@
 	<Waves />
 	<Header
 		showBackground
+		siteTitle={title}
 		links={[
 			{ href: '/', label: 'Home' },
 			{ href: '/news', label: 'News' },
@@ -77,7 +84,13 @@
 		{@render children()}
 	</main>
 	<div class="footer-wrap">
-		<Footer />
+		<Footer
+			teamLabel={footerTeamLabel}
+			teamUrl={footerTeamUrl}
+			slogan={footerSlogan}
+			disclaimer={footerDisclaimer}
+			socialLinks={socialLinks}
+		/>
 	</div>
 
 	<Modal open={open} onclose={() => serverModalOpen.set(false)}>

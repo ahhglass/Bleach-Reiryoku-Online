@@ -1,14 +1,16 @@
 <script lang="ts">
 	import FaqAccordion from '$blocks/FaqAccordion.svelte';
 	import SearchIcon from '$lib/icons/search.svelte';
-	import { title as siteTitle } from '$lib/data/meta';
 	import type { FaqItem } from '$lib/data/faq';
+	import type { SiteSettings } from '../+layout.server';
 
 	interface Props {
-		data: { items?: FaqItem[]; tags?: string[] };
+		data: { settings?: SiteSettings | null; items?: FaqItem[]; tags?: string[] };
 	}
 
 	let { data }: Props = $props();
+
+	const siteTitle = $derived(data?.settings?.site_title ?? '');
 
 	const items = $derived(data?.items ?? []);
 	const tags = $derived(data?.tags ?? []);
@@ -54,7 +56,7 @@
 
 <svelte:head>
 	<title>FAQ — {siteTitle}</title>
-	<meta name="description" content="Frequently asked questions about Bleach Reiryoku Online (BRO) and development." />
+	<meta name="description" content="Frequently asked questions." />
 </svelte:head>
 
 <div class="container faq-page">

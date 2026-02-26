@@ -9,7 +9,7 @@
 </script>
 
 <svelte:head>
-	<title>Admin — BRO</title>
+	<title>Admin</title>
 </svelte:head>
 
 <div class="page-header">

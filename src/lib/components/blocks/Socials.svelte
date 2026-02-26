@@ -4,25 +4,51 @@
 	import LinkedInIcon from '$lib/icons/linkedin.svelte';
 	import EmailIcon from '$lib/icons/email.svelte';
 	import X from '$lib/icons/x.svelte';
+	import DiscordIcon from '$lib/icons/discord.svelte';
+	import MastodonIcon from '$lib/icons/mastodon.svelte';
+	import LinkIcon from '$lib/icons/link.svelte';
 	import { sound } from '$lib/utils/sound';
+	import type { SocialLinkItem } from '$lib/utils/types';
+
+	interface Props {
+		/** From Admin → Settings (social_links JSON). */
+		items?: SocialLinkItem[];
+	}
+	let { items = [] }: Props = $props();
+
+	const iconMap: Record<string, typeof TelegramIcon> = {
+		telegram: TelegramIcon,
+		x: X,
+		github: GitHubIcon,
+		email: EmailIcon,
+		linkedin: LinkedInIcon,
+		discord: DiscordIcon,
+		mastodon: MastodonIcon,
+		link: LinkIcon
+	};
+	function href(url: string): string {
+		const u = url.trim();
+		if (u.startsWith('mailto:')) return u;
+		if (u && !/^https?:\/\//i.test(u)) return 'mailto:' + u;
+		return u;
+	}
 </script>
 
 <div class="socials">
-	<a href="#" target="_blank" rel="noopener noreferrer" title="Telegram" use:sound>
-		<TelegramIcon />
-	</a>
-	<a href="#" target="_blank" rel="me noreferrer" title="X" use:sound>
-		<X />
-	</a>
-	<a href="#" target="_blank" rel="noopener noreferrer" title="GitHub profile" use:sound>
-		<GitHubIcon />
-	</a>
-	<!-- <a href="#" target="_blank" rel="noopener noreferrer" title="Connect on LinkedIn">
-		<LinkedInIcon />
-	</a> -->
-	<a href="#" target="_blank" rel="noopener noreferrer" title="Send an email" use:sound>
-		<EmailIcon />
-	</a>
+	{#each items as item}
+		{#if item.url?.trim()}
+			{@const Icon = iconMap[item.icon] ?? LinkIcon}
+			<a
+				href={href(item.url)}
+				target="_blank"
+				rel="noopener noreferrer"
+				title={item.label || item.icon}
+				use:sound
+			>
+				<Icon />
+			</a>
+		{/if}
+	{/each}
 </div>
 
 <style lang="scss">

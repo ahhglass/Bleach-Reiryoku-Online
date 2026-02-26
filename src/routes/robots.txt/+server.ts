@@ -1,9 +1,19 @@
 import { siteBaseUrl } from '$lib/data/meta';
-
-export const prerender = true;
+import { getSupabaseServer } from '$lib/supabaseServer';
 
 export async function GET() {
-	const base = siteBaseUrl.replace(/\/$/, '');
+	let base = siteBaseUrl.replace(/\/$/, '');
+	try {
+		const supabase = getSupabaseServer();
+		const { data } = await supabase.from('site_settings').select('key, value');
+		if (data?.length) {
+			const map = Object.fromEntries((data as { key: string; value: string }[]).map((r) => [r.key, r.value]));
+			const url = (map.site_base_url ?? '').trim().replace(/\/$/, '');
+			if (url) base = url;
+		}
+	} catch {
+		// keep meta fallback
+	}
 	const body = `# Allow crawling everything by default
 User-agent: *
 Allow: /

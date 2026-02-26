@@ -10,10 +10,8 @@
 		heroSubtitle?: string;
 	}
 
-	let {
-		heroTitle = 'A Bleach-inspired RPG built for Hytale',
-		heroSubtitle = 'In Development - Reiryoku Team Bleach RPG for launch'
-	}: Props = $props();
+	// Defaults from DB (Admin → Settings). Commented hardcoded: 'A Bleach-inspired RPG built for Hytale', 'In Development - Reiryoku Team Bleach RPG for launch'
+	let { heroTitle = '', heroSubtitle = '' }: Props = $props();
 </script>
 
 <section id="hero">

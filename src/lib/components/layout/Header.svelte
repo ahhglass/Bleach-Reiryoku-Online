@@ -14,9 +14,11 @@
 	interface Props {
 		showBackground?: boolean;
 		links?: NavLink[];
+		/** From DB (site_title) for logo. */
+		siteTitle?: string;
 	}
 
-	let { showBackground = false, links = [] }: Props = $props();
+	let { showBackground = false, links = [], siteTitle = '' }: Props = $props();
 
 	const navLinks = $derived(links.length > 0 ? links : [{ href: '/', label: 'Home' }]);
 
@@ -72,7 +74,7 @@
 <header class="header" class:has-background={showBackground}>
 	<nav class="container" aria-label="Main navigation">
 		<a class="logo" href="/" aria-label="Site logo" use:sound>
-			<Logo />
+			<Logo siteTitle={siteTitle} />
 		</a>
 
 		<div class="links">

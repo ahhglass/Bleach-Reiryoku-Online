@@ -1,13 +1,14 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { title as siteTitle } from '$lib/data/meta';
 	import NewsCard from '$blocks/NewsCard.svelte';
+	import type { SiteSettings } from '../+layout.server';
 	import NavArrowLeft from '$lib/icons/nav-arrow-left.svelte';
 	import NavArrowRight from '$lib/icons/nav-arrow-right.svelte';
 	import type { NewsPost } from '$lib/utils/types';
 
 	interface Props {
 		data: {
+			settings?: SiteSettings | null;
 			posts?: NewsPost[];
 			totalPages?: number;
 			currentPage?: number;
@@ -15,6 +16,8 @@
 	}
 
 	let { data }: Props = $props();
+
+	const siteTitle = $derived(data?.settings?.site_title ?? '');
 
 	const posts = $derived(data?.posts ?? []);
 	const totalPages = $derived(data?.totalPages ?? 1);
