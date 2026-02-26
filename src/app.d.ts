@@ -10,16 +10,6 @@ declare global {
 	}
 }
 
-declare module '*.glsl?raw' {
-	const value: string;
-	export default value;
-}
-
-declare module 'three' {
-	const three: unknown;
-	export default three;
-}
-
 declare module 'reading-time/lib/reading-time' {
 	function readingTime(text: string): { text: string; minutes: number; time: number; words: number };
 	export default readingTime;

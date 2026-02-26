@@ -216,10 +216,10 @@
 		flex-wrap: wrap;
 		align-items: center;
 		justify-content: flex-end;
-		gap: 10px;
+		gap: 4px;
 
 		@include for-phone-only {
-			gap: 6px;
+			gap: 3px;
 		}
 	}
 
@@ -235,8 +235,9 @@
 		transition: opacity 0.6s ease, color 0.2s ease;
 
 		:global(svg) {
-			width: 20px;
-			height: 20px;
+			width: 18px;
+			height: 18px;
+			margin-top: 5px;
 		}
 
 		@include for-phone-only {

@@ -1,11 +1,9 @@
-<!-- Waves block: shader (wave colors) → floating icons → SVG waves -->
+<!-- Waves block: floating icons → SVG waves -->
 <script lang="ts">
 	import FloatingIcons from './FloatingIcons.svelte';
-	import ShaderBackground from './ShaderBackground.svelte';
 </script>
 
 <div class="waves-container">
-	<!-- <ShaderBackground useWaveColors /> -->
 	<FloatingIcons />
 	<svg
 		class="waves"
