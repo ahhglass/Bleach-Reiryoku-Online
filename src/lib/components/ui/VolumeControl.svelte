@@ -183,11 +183,9 @@
 		transform: translateX(-50%);
 		z-index: 1001;
 		margin-top: 6px;
-		padding: 8px 10px;
+		padding: 8px;
 		background: var(--color--card-background);
-		border: 1px solid var(--color--code-inline-background);
-		border-radius: 8px;
-		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+		border-radius: 12px;
 		white-space: nowrap;
 		animation: volIn 0.2s ease-out;
 

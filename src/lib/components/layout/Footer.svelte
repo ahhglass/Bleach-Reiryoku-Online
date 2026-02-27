@@ -74,7 +74,7 @@
 	footer {
 		position: relative;
 		z-index: 2;
-		min-height: 280px;
+		min-height: 18em;
 		width: 100%;
 		background: linear-gradient(60deg, var(--color--waves-start) 0%, var(--color--waves-end) 100%);
 		display: grid;
@@ -104,7 +104,7 @@
 	.content {
 		display: grid;
 		grid-template-columns: 1fr 1fr;
-		align-items: start;
+		align-items: center;
 		justify-content: space-between;
 		gap: 1.5rem 2rem;
 		font-weight: 600;
