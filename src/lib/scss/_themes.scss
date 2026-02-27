@@ -5,6 +5,10 @@
 	@include define-color('primary-shade', #e55789);
 	@include define-color('primary-tint', #f9f6fe);
 
+	@include define-color('curseforge', #F3673A);
+	@include define-color('curseforge-shade', #F3673A);
+	@include define-color('curseforge-tint', #F3673A);
+
 	@include define-color('secondary', #ff571a);
 	@include define-color('secondary-shade', #ffa280);
 	@include define-color('secondary-tint', #fff8f5);
@@ -48,6 +52,10 @@
 	@include define-color('primary', #a30d54);
 	@include define-color('primary-shade', #700832);
 	@include define-color('primary-tint', #000000);
+
+	@include define-color('curseforge', #F3673A);
+	@include define-color('curseforge-shade', #F3673A);
+	@include define-color('curseforge-tint', #F3673A);	
 
 	@include define-color('secondary', #ff723f);
 	@include define-color('secondary-shade', #ab3307);

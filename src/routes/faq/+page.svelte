@@ -3,6 +3,9 @@
 	import SearchIcon from '$lib/icons/search.svelte';
 	import type { FaqItem } from '$lib/data/faq';
 	import type { SiteSettings } from '../+layout.server';
+	import Button from '$ui/Button.svelte';
+	import CurseForgeIcon from '$lib/icons/curseforge.svelte';
+	import Sparkles from '$ui/Sparkles.svelte';
 
 	interface Props {
 		data: { settings?: SiteSettings | null; items?: FaqItem[]; tags?: string[] };
@@ -68,22 +71,34 @@
 		<p class="find-desc">Explore information and stay up to date with the project's development.</p>
 
 		<div class="search-wrap group">
-			<span class="search-icon" aria-hidden="true">
-				<SearchIcon />
-			</span>
-			<input
-				id="faq-search"
-				type="search"
-				class="search-input"
-				bind:value={search}
-				onfocus={() => (searchFocused = true)}
-				onblur={() => (searchFocused = false)}
-				aria-label="Search FAQ"
-				autocomplete="off"
-			/>
-			<label for="faq-search" class="search-label" class:floating={labelFloating}>
-				Search questions or keywords
-			</label>
+			<div class="search-main">
+				<span class="search-icon" aria-hidden="true">
+					<SearchIcon />
+				</span>
+				<input
+					id="faq-search"
+					type="search"
+					class="search-input"
+					bind:value={search}
+					onfocus={() => (searchFocused = true)}
+					onblur={() => (searchFocused = false)}
+					aria-label="Search FAQ"
+					autocomplete="off"
+				/>
+				<label for="faq-search" class="search-label" class:floating={labelFloating}>
+					Search questions or keywords
+				</label>
+			</div>
+			<div class="search-curseforge-wrap">
+				<Sparkles>
+					<Button color="curseforge" href="https://www.curseforge.com/hytale/mods/bleach-reiryoku">
+						{#snippet icon()}
+							<CurseForgeIcon />
+						{/snippet}
+						<span class="curseforge-btn-text">Mod on CurseForge</span>
+					</Button>
+				</Sparkles>
+			</div>
 		</div>
 
 		<div class="controls">
@@ -192,13 +207,46 @@
 		}
 	}
 
-	.search-wrap {
+	.search-wrap {	
 		position: relative;
-		max-width: 480px;
+		width: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
 		margin-bottom: 16px;
 
 		@include for-phone-only {
+			flex-direction: column;
+			align-items: stretch;
+			justify-content: flex-start;
+			gap: 8px;
 			margin-bottom: 12px;
+		}
+	}
+
+	.search-main {
+		position: relative;
+		width: 100%;
+		display: flex;
+		align-items: center;
+
+		@include for-phone-only {
+			width: 100%;
+		}
+	}
+
+	.search-curseforge-wrap {
+		display: flex;
+		align-items: center;
+		/* Don't let Sparkles/content grow on desktop */
+		@include for-phone-only {
+			width: 100%;
+			justify-content: flex-start;
+		}
+
+		/* Prevent line-breaks for button and Sparkles on all screen by default */
+		:global(.button) {
+			white-space: nowrap;
 		}
 	}
 
@@ -235,14 +283,15 @@
 
 	.search-input {
 		width: 100%;
-		padding: 18px 16px 10px 44px;
+		max-width: 380px;
+		padding: 8px 12px 8px 42px;
 		font-size: 1rem;
 		border: none;
-		border-radius: 10px;
+		border-radius: 20px;
 		background: var(--color--team-card-bg);
 		color: var(--color--text);
 		font-family: inherit;
-		transition: box-shadow 0.2s ease;
+		transition: box-shadow 0.3s ease;
 
 		&:focus {
 			outline: none;
@@ -252,7 +301,6 @@
 		@include for-phone-only {
 			padding: 14px 12px 8px 40px;
 			font-size: 0.9375rem;
-			border-radius: 8px;
 		}
 	}
 
@@ -278,13 +326,37 @@
 	}
 
 	.search-label.floating {
-		top: -8px;
+		top: -12px;
 		transform: none;
-		padding: 0px 4px;
-		border-top-left-radius: 4px;
-		border-top-right-radius: 4px;
+		padding: 2px 8px 0px 8px;
+		border-top-left-radius: 12px;
+		border-top-right-radius: 12px;
 		background: var(--color--team-card-bg);
 		font-size: 0.75rem;
+	}
+
+	.curseforge-btn-text {
+		white-space: nowrap;
+	}
+
+	:global(.button.curseforge) {
+		white-space: nowrap !important; // prevent button text from wrapping
+	}
+
+	:global(.sparkles) {
+		width: auto;
+	}
+
+	@media (max-width: 600px) {
+		.search-curseforge-wrap {
+			width: 100%;
+			justify-content: flex-start;
+		}
+		:global(.button.curseforge) {
+			width: 100%;
+			justify-content: flex-start;
+			display: flex;
+		}
 	}
 
 	.controls {
@@ -316,7 +388,7 @@
 		padding: 4px 8px;
 		font-size: 0.75rem;
 		font-weight: 500;
-		border-radius: 8px;
+		border-radius: 14px;
 		border: none;
 		background: var(--color--team-card-bg);
 		color: var(--color--text);
@@ -362,10 +434,10 @@
 	}
 
 	.action-btn {
-		padding: 4px 8px;
+		padding: 4px 10px;
 		font-size: 0.75rem;
 		font-weight: 500;
-		border-radius: 8px;
+		border-radius: 14px;
 		border: none;
 		background: var(--color--team-card-bg);
 		color: var(--color--text);

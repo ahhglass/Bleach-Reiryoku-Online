@@ -3,7 +3,7 @@
 	import { sound } from '$lib/utils/sound';
 
 	interface Props {
-		color?: 'primary' | 'secondary';
+		color?: 'primary' | 'secondary' | 'curseforge';
 		style?: 'solid' | 'understated' | 'clear';
 		size?: 'small' | 'medium' | 'large';
 		href?: string;
@@ -96,6 +96,12 @@
 			--main-color: var(--color--secondary-rgb);
 			--light-color: var(--color--secondary-tint-rgb);
 			--contrast-color: var(--color--secondary-contrast);
+		}
+
+		&.color--curseforge {
+			--main-color: var(--color--curseforge-rgb);
+			--light-color: var(--color--curseforge-tint-rgb);
+			--contrast-color: var(--color--curseforge-contrast);
 		}
 
 		&.style--solid {
