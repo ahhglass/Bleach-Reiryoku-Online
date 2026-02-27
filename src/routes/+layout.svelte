@@ -68,7 +68,7 @@
 	});
 </script>
 
-<div class="layout-wrap">
+<div class="layout-wrap" class:admin-route={$page.url.pathname.startsWith('/admin')}>
 	<Waves />
 	<Header
 		showBackground
@@ -141,6 +141,15 @@
 		@include for-phone-only {
 			padding-left: 0.75rem;
 			padding-right: 0.75rem;
+		}
+	}
+
+	/* Admin: full width on mobile, no outer padding (admin has its own small padding) */
+	@include for-phone-only {
+		.layout-wrap.admin-route .main-content {
+			max-width: none;
+			padding-left: 0;
+			padding-right: 0;
 		}
 	}
 
