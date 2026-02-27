@@ -1,28 +1,64 @@
 /* Admin — design system for all admin pages */
-/* Fluid typography: clamp(min, preferred, max) between 20rem and 75rem viewport */
+/* Theme-aware: light tones by default, dark when site theme is dark */
 
+/* Light theme (default) */
 .admin-layout {
-	--admin-bg: #0f1115;
-	--admin-surface: #161a21;
-	--admin-surface-elevated: #1c2129;
-	--admin-border: #2a313c;
-	--admin-text: #e6e9ef;
-	--admin-text-muted: #8b92a0;
+	--admin-bg: #f2f4f8;
+	--admin-surface: #ffffff;
+	--admin-surface-elevated: #f8f9fc;
+	--admin-border: #e2e6ed;
+	--admin-text: #1c1e26;
+	--admin-text-muted: #5d5f65;
 	--admin-accent: #c71553;
 	--admin-accent-hover: #e01860;
-	--admin-success: #22c55e;
-	--admin-success-bg: rgba(34, 197, 94, 0.12);
-	--admin-error: #ef4444;
-	--admin-error-bg: rgba(239, 68, 68, 0.12);
+	--admin-success: #16a34a;
+	--admin-success-bg: rgba(22, 163, 74, 0.1);
+	--admin-error: #dc2626;
+	--admin-error-bg: rgba(220, 38, 38, 0.1);
 	--admin-radius: 10px;
 	--admin-radius-sm: 6px;
-	--admin-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+	--admin-shadow: 0 2px 12px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.04);
 	border-radius: 12px;
 	min-height: 80vh;
 	display: flex;
 	flex-direction: column;
 	background: var(--admin-bg);
 	font-family: var(--font--default, system-ui, sans-serif);
+}
+
+/* Dark theme — when site theme is dark */
+:root[data-theme='dark'] .admin-layout {
+	--admin-bg: #0f1115;
+	--admin-surface: #161a21;
+	--admin-surface-elevated: #1c2129;
+	--admin-border: #2a313c;
+	--admin-text: #e6e9ef;
+	--admin-text-muted: #8b92a0;
+	--admin-accent: #e01860;
+	--admin-accent-hover: #f01a6b;
+	--admin-success: #22c55e;
+	--admin-success-bg: rgba(34, 197, 94, 0.12);
+	--admin-error: #ef4444;
+	--admin-error-bg: rgba(239, 68, 68, 0.12);
+	--admin-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+}
+
+@media (prefers-color-scheme: dark) {
+	:root[data-theme='auto'] .admin-layout {
+		--admin-bg: #0f1115;
+		--admin-surface: #161a21;
+		--admin-surface-elevated: #1c2129;
+		--admin-border: #2a313c;
+		--admin-text: #e6e9ef;
+		--admin-text-muted: #8b92a0;
+		--admin-accent: #e01860;
+		--admin-accent-hover: #f01a6b;
+		--admin-success: #22c55e;
+		--admin-success-bg: rgba(34, 197, 94, 0.12);
+		--admin-error: #ef4444;
+		--admin-error-bg: rgba(239, 68, 68, 0.12);
+		--admin-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+	}
 }
 
 /* Header */
@@ -1086,7 +1122,6 @@
 	border: none;
 	padding: 0.6rem 1rem;
 	border-radius: var(--admin-radius-sm);
-	border-bottom: 3px solid rgba(0, 0, 0, 0.2);
 	transition: background 0.2s ease, border-color 0.2s ease;
 	outline: none;
 	text-transform: uppercase;

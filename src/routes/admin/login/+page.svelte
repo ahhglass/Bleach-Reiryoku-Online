@@ -10,6 +10,7 @@
 
 	let { form }: Props = $props();
 	let showPassword = $state(false);
+	let submitting = $state(false);
 </script>
 
 <svelte:head>
@@ -21,7 +22,17 @@
 		<h1>Admin</h1>
 		<p class="hint">Log in to manage the site.</p>
 
-		<form method="POST" action="?/login" use:enhance>
+		<form
+			method="POST"
+			action="?/login"
+			use:enhance={() => {
+				submitting = true;
+				return async ({ update }) => {
+					await update();
+					submitting = false;
+				};
+			}}
+		>
 			{#if form?.error}
 				<p class="error" role="alert">{form.error}</p>
 			{/if}
@@ -58,7 +69,12 @@
 					</button>
 				</div>
 			</div>
-			<button type="submit" class="submit" use:sound>Log in</button>
+			<button type="submit" class="submit" disabled={submitting} use:sound>
+				<span class="btn-text" class:hidden={submitting}>Log in</span>
+				<span class="btn-spinner" class:visible={submitting} aria-hidden="true">
+					<span class="spinner"></span>
+				</span>
+			</button>
 		</form>
 	</div>
 </div>
@@ -205,8 +221,10 @@
 		pointer-events: auto;
 	}
 	.submit {
+		position: relative;
 		margin-top: 0.25rem;
 		padding: 0.6rem 1rem;
+		min-height: 2.75rem;
 		font-size: clamp(0.9375rem, 0.88rem + 0.35vw, 1rem);
 		font-weight: 600;
 		color: white;
@@ -216,10 +234,49 @@
 		cursor: pointer;
 		transition: filter 0.2s;
 	}
-	.submit:hover {
+	.submit:hover:not(:disabled) {
 		filter: brightness(1.05);
 	}
-	.submit:active {
+	.submit:active:not(:disabled) {
 		filter: brightness(0.95);
+	}
+	.submit:disabled {
+		cursor: wait;
+	}
+	.submit .btn-text,
+	.submit .btn-spinner {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		transition: opacity 0.25s ease;
+	}
+	.submit .btn-text.hidden {
+		position: absolute;
+		opacity: 0;
+		pointer-events: none;
+	}
+	.submit .btn-spinner {
+		position: absolute;
+		inset: 0;
+		opacity: 0;
+		pointer-events: none;
+	}
+	.submit .btn-spinner.visible {
+		position: static;
+		opacity: 1;
+		pointer-events: none;
+	}
+	.spinner {
+		width: 1.25rem;
+		height: 1.25rem;
+		border: 2px solid rgba(255, 255, 255, 0.3);
+		border-top-color: white;
+		border-radius: 50%;
+		animation: login-spin 0.7s linear infinite;
+	}
+	@keyframes login-spin {
+		to {
+			transform: rotate(360deg);
+		}
 	}
 </style>

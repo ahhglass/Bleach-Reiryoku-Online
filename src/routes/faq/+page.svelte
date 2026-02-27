@@ -278,7 +278,6 @@
 	}
 
 	.search-label.floating {
-		// top: -19.5px; не трогать
 		top: -8px;
 		transform: none;
 		padding: 0px 4px;
@@ -286,7 +285,6 @@
 		border-top-right-radius: 4px;
 		background: var(--color--team-card-bg);
 		font-size: 0.75rem;
-		// box-shadow: 0 0 0 2px rgba(var(--color--primary-rgb), 0.2);
 	}
 
 	.controls {
