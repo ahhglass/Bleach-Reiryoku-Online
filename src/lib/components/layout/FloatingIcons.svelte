@@ -1,19 +1,19 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 
-	// 17 Bleach-themed icons from static/images/floating-icons — icon-1.webp … icon-18.webp
-	const ICON_COUNT = 18;
+	// 17 Bleach-themed icons from static/images/floating-icons — icon-1.webp … icon-20.webp
+	const ICON_COUNT = 20;
 	const ICON_PATHS = Array.from(
 		{ length: ICON_COUNT },
 		(_, i) => `/images/floating-icons/icon-${i + 1}.webp`
 	);
 
-	// Viewport width: mobile 8, tablet 14, desktop 18 (matches _breakpoints.scss)
+	// Viewport width: mobile 8, tablet 14, desktop 20 (matches _breakpoints.scss)
 	const BREAKPOINT_PHONE = 767;
 	const BREAKPOINT_DESKTOP = 1201;
 	const ICONS_MOBILE = 8;
 	const ICONS_TABLET = 14;
-	const ICONS_DESKTOP = 18;
+	const ICONS_DESKTOP = 20;
 
 	const ICON_SIZE_PX = 64;
 	const COLLISION_RADIUS = 28;
