@@ -65,7 +65,11 @@
 </svelte:head>
 
 <div class="news-page">
-	<h1 class="page-title">News</h1>
+	<header class="news-header">
+		<p class="label">LATEST NEWS</p>
+		<h1 class="page-title">News</h1>
+	</header>
+
 	{#if posts.length}
 		<div class="news-grid" class:mounted>
 			{#each posts as post, i}
@@ -128,11 +132,33 @@
 		width: 100%;
 	}
 
-	.page-title {
-		font-family: var(--font--title);
-		@include fluid-text(1.5rem, 2rem);
-		margin-bottom: 1.5rem;
+	.news-header {
 		text-align: center;
+		margin-bottom: 48px;
+
+		.label {
+			@include fluid-text(0.75rem, 0.875rem);
+			letter-spacing: 0.15em;
+			color: var(--color--text-shade);
+			margin: 0 0 8px;
+
+			@include for-phone-only {
+				font-size: 0.6875rem;
+				letter-spacing: 0.1em;
+				margin-bottom: 4px;
+			}
+		}
+
+		.page-title {
+			font-family: var(--font--title);
+			margin: 0 0 16px;
+			color: var(--color--text);
+			@include fluid-text(1.75rem, 2.25rem);
+
+			@include for-phone-only {
+				font-size: 1.5rem;
+			}
+		}
 	}
 
 	.news-grid {

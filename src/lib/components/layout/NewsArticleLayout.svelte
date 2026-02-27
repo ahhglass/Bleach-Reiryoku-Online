@@ -69,32 +69,34 @@
 
 <div class="article-layout">
 	<div class="article-layout-inner" class:mounted>
-		<nav class="back-bar" aria-label="Back to news">
-			<button type="button" class="back-button" onclick={goBack} title="Back to news (Esc)" use:sound>
-				<span class="back-icon" aria-hidden="true">
-					<ArrowLeftIcon />
-				</span>
-				Back
-			</button>
-		</nav>
 		<article id="article-content">
-			<div class="header">
-				<h1>{post.title}</h1>
-				<div class="note">Published on {dateformat(post.date, 'UTC:dd mmmm yyyy')}</div>
-				{#if post.updated}
-					<div class="note secondary-note">Updated on {dateformat(post.updated, 'UTC:dd mmmm yyyy')}</div>
-				{/if}
-				{#if post.readingTime}
-					<div class="note">{post.readingTime}</div>
-				{/if}
-				{#if post.tags?.length}
-					<div class="tags">
-						{#each post.tags as tag}
-							<span class="tag">{tag}</span>
-						{/each}
-					</div>
-				{/if}
-			</div>
+			<header class="article-header">
+				<nav class="back-col" aria-label="Back to news">
+					<button type="button" class="back-button" onclick={goBack} title="Back to news (Esc)" use:sound>
+						<span class="back-icon" aria-hidden="true">
+							<ArrowLeftIcon />
+						</span>
+						Back
+					</button>
+				</nav>
+				<div class="header-content">
+					<h1>{post.title}</h1>
+					<div class="note">Published on {dateformat(post.date, 'UTC:dd mmmm yyyy')}</div>
+					{#if post.updated}
+						<div class="note secondary-note">Updated on {dateformat(post.updated, 'UTC:dd mmmm yyyy')}</div>
+					{/if}
+					{#if post.readingTime}
+						<div class="note">{post.readingTime}</div>
+					{/if}
+					{#if post.tags?.length}
+						<div class="tags">
+							{#each post.tags as tag}
+								<span class="tag">{tag}</span>
+							{/each}
+						</div>
+					{/if}
+				</div>
+			</header>
 			{#if post.coverImage}
 				<div class="cover-image">
 					<ImageWithSkeleton
@@ -171,60 +173,10 @@
 		}
 	}
 
-	.back-bar {
-		padding: 12px 0px 0px 12px;
-
-		@include for-phone-only {
-			padding: 10px 12px 0;
-		}
-
-		@include for-iphone-se {
-			padding: 8px 10px 0;
-		}
-
-		@include for-tablet-landscape-up {
-			padding-right: 30px;
-			padding-top: 14px;
-		}
-	}
-
-	.back-button {
-		display: inline-flex;
-		align-items: center;
-		gap: 0.35rem;
-		padding: 0.4rem 0.75rem;
-		font-size: 0.9375rem;
-		font-family: inherit;
-		color: var(--color--primary);
-		background: transparent;
-		border: 1px solid var(--color--primary);
-		border-radius: 8px;
-		cursor: pointer;
-		transition: background 0.2s ease, color 0.2s ease;
-
-		&:hover {
-			background: rgba(var(--color--primary-rgb), 0.1);
-		}
-
-		&:focus-visible {
-			outline: 2px solid var(--color--primary);
-			outline-offset: 2px;
-		}
-
-		.back-icon {
-			display: inline-flex;
-			width: 1em;
-			height: 1em;
-		}
-	}
-
 	#article-content {
 		--main-column-width: 65ch;
 		position: relative;
-		padding-top: 40px;
-		padding-bottom: 80px;
-		padding-right: 15px;
-		padding-left: 15px;
+		padding: 20px 15px 80px;
 
 		@include for-phone-only {
 			padding-left: 12px;
@@ -250,7 +202,76 @@
 		flex-direction: column;
 		gap: 30px;
 
-		.header {
+		.article-header {
+			display: grid;
+			grid-template-columns: auto 1fr;
+			align-items: start;
+			gap: 1rem 1.5rem;
+			width: 100%;
+
+			@include for-phone-only {
+				grid-template-columns: 1fr;
+				grid-template-rows: auto auto;
+				gap: 0.75rem 0;
+				align-items: stretch;
+			}
+
+			@include for-iphone-se {
+				gap: 0.5rem 0;
+			}
+		}
+
+		.back-col {
+			padding-top: 2px;
+
+			@include for-phone-only {
+				padding-top: 0;
+				display: flex;
+				justify-content: flex-start;
+			}
+		}
+
+		.back-button {
+			display: inline-flex;
+			align-items: center;
+			gap: 0.35rem;
+			padding: 0.4rem 0.75rem;
+			font-size: 0.9375rem;
+			font-family: inherit;
+			color: var(--color--primary);
+			background: transparent;
+			border: 1px solid var(--color--primary);
+			border-radius: 8px;
+			cursor: pointer;
+			transition: background 0.2s ease, color 0.2s ease;
+
+			@include for-phone-only {
+				padding: 0.35rem 0.6rem;
+				font-size: 0.875rem;
+			}
+
+			@include for-iphone-se {
+				padding: 0.3rem 0.5rem;
+				font-size: 0.8125rem;
+			}
+
+			&:hover {
+				background: rgba(var(--color--primary-rgb), 0.1);
+			}
+
+			&:focus-visible {
+				outline: 2px solid var(--color--primary);
+				outline-offset: 2px;
+			}
+
+			.back-icon {
+				display: inline-flex;
+				width: 1em;
+				height: 1em;
+			}
+		}
+
+		.header-content {
 			display: flex;
 			flex-direction: column;
 			align-items: center;
@@ -258,20 +279,71 @@
 			text-align: center;
 			gap: 10px;
 			width: min(var(--main-column-width), 100%);
+			min-width: 0;
+			justify-self: center;
 			margin: 0 auto;
+			margin-left: 5%;
+
+			@include for-phone-only {
+				margin-left: 0;
+				margin-right: 0;
+				gap: 6px;
+			}
+
+			@include for-iphone-se {
+				gap: 4px;
+			}
 
 			h1 {
 				@include fluid-text(1.5rem, 2.25rem);
+
+				@include for-phone-only {
+					font-size: clamp(1.15rem, 4.5vw + 0.8rem, 1.5rem);
+					line-height: 1.25;
+				}
 			}
 
 			.note {
 				@include fluid-text(0.8125rem, 0.9rem);
 				color: rgba(var(--color--text-rgb), 0.8);
+
+				@include for-phone-only {
+					font-size: 0.8125rem;
+				}
 			}
 			.secondary-note {
 				opacity: 0.4;
 				margin-top: -0.75em;
 				@include fluid-text(0.65rem, 0.85rem);
+
+				@include for-phone-only {
+					font-size: 0.75rem;
+				}
+			}
+
+			.tags {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				gap: 5px;
+				flex-wrap: wrap;
+
+				@include for-phone-only {
+					gap: 4px;
+				}
+			}
+
+			.tag {
+				padding: 4px 10px;
+				border-radius: 8px;
+				@include fluid-text(0.6875rem, 0.8125rem);
+				background: var(--color--team-badge-bg);
+				color: var(--color--team-badge-text);
+
+				@include for-phone-only {
+					padding: 3px 8px;
+					font-size: 0.6875rem;
+				}
 			}
 		}
 
@@ -310,22 +382,6 @@
 				margin-left: auto;
 				margin-right: auto;
 			}
-		}
-
-		.tags {
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			gap: 5px;
-			flex-wrap: wrap;
-		}
-
-		.tag {
-			padding: 4px 10px;
-			border-radius: 8px;
-			@include fluid-text(0.6875rem, 0.8125rem);
-			background: var(--color--team-badge-bg);
-			color: var(--color--team-badge-text);
 		}
 	}
 

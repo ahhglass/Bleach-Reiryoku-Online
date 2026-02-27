@@ -86,8 +86,8 @@
 		code:not([class*='language-']) {
 			font-family: var(--font--mono);
 			background: var(--color--code-inline-background);
-			padding: 5px 10px;
-			border-radius: 5px;
+			padding: 4px 8px;
+			border-radius: 6px;
 			@include fluid-text(0.8125rem, 0.9375rem);
 		}
 
