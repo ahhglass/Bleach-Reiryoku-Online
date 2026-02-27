@@ -290,8 +290,34 @@
 }
 
 .admin-main .row textarea {
-	resize: vertical;
+	resize: none;
 	min-height: 80px;
+	box-sizing: border-box;
+	transition: height 0.12s ease-out;
+}
+
+/* Scrollbars for textareas */
+.admin-main .row textarea {
+	scrollbar-width: thin;
+	scrollbar-color: var(--admin-border) transparent;
+}
+.admin-main .row textarea::-webkit-scrollbar {
+	width: 10px;
+	height: 10px;
+}
+.admin-main .row textarea::-webkit-scrollbar-track {
+	background: transparent;
+}
+.admin-main .row textarea::-webkit-scrollbar-thumb {
+	background: var(--admin-border);
+	border-radius: 5px;
+	border: 2px solid var(--admin-bg);
+}
+.admin-main .row textarea::-webkit-scrollbar-thumb:hover {
+	background: var(--admin-text-muted);
+}
+.admin-main .row textarea.body-textarea {
+	min-height: 120px;
 }
 
 .admin-main .row.row-inline {

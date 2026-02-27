@@ -120,6 +120,32 @@
 		editCoverPreviewUrl = null;
 		editCoverFileName = '';
 	}
+
+	/** Auto-resize textarea by content; optional min/max height in px */
+	function autoResize(
+		el: HTMLTextAreaElement,
+		opts?: { minHeight?: number; maxHeight?: number }
+	) {
+		const minH = opts?.minHeight ?? 52;
+		const maxH = opts?.maxHeight ?? 720;
+		function resize() {
+			el.style.height = 'auto';
+			const scrollH = el.scrollHeight;
+			const h = Math.min(Math.max(scrollH, minH), maxH);
+			el.style.height = `${h}px`;
+			el.style.overflowY = scrollH > maxH ? 'auto' : 'hidden';
+		}
+		el.addEventListener('input', resize);
+		resize();
+		requestAnimationFrame(resize);
+		const t = setTimeout(resize, 120);
+		return {
+			destroy() {
+				clearTimeout(t);
+				el.removeEventListener('input', resize);
+			}
+		};
+	}
 </script>
 
 <svelte:head>
@@ -178,11 +204,11 @@
 		</div>
 		<div class="row">
 			<label for="new-excerpt">Excerpt</label>
-			<textarea id="new-excerpt" name="excerpt" rows="2"></textarea>
+			<textarea id="new-excerpt" name="excerpt" class="textarea-auto" rows="2" use:autoResize={{ minHeight: 52, maxHeight: 320 }}></textarea>
 		</div>
 		<div class="row">
 			<label for="new-body">Body (Markdown)</label>
-			<textarea id="new-body" name="body" rows="10"></textarea>
+			<textarea id="new-body" name="body" class="textarea-auto body-textarea" rows="10" use:autoResize={{ minHeight: 120, maxHeight: 720 }}></textarea>
 		</div>
 		<div class="row">
 			<label for="new-cover">Cover image</label>
@@ -264,17 +290,17 @@
 								<input id="edit-date-{item.slug}" name="date" type="datetime-local" bind:value={editDate} />
 							</div>
 							<div>
-								<label for="edit-updated-{item.slug}">Updated <span class="italic"> | Leave empty to use current time on save</span></label>
-								<input id="edit-updated-{item.slug}" name="updated" type="datetime-local" bind:value={editUpdated} />
+								<label for="edit-updated-{item.slug}">Updated <span class="italic"> | Set to current time when you save</span></label>
+								<input id="edit-updated-{item.slug}" name="updated" type="datetime-local" bind:value={editUpdated} disabled title="Set automatically on save" />
 							</div>
 						</div>
 						<div class="row">
 							<label for="edit-excerpt-{item.slug}">Excerpt</label>
-							<textarea id="edit-excerpt-{item.slug}" name="excerpt" rows="2" bind:value={editExcerpt}></textarea>
+							<textarea id="edit-excerpt-{item.slug}" name="excerpt" class="textarea-auto" rows="2" bind:value={editExcerpt} use:autoResize={{ minHeight: 52, maxHeight: 320 }}></textarea>
 						</div>
 						<div class="row">
 							<label for="edit-body-{item.slug}">Body (Markdown)</label>
-							<textarea id="edit-body-{item.slug}" name="body" rows="8" bind:value={editBody}></textarea>
+							<textarea id="edit-body-{item.slug}" name="body" class="textarea-auto body-textarea" rows="8" bind:value={editBody} use:autoResize={{ minHeight: 120, maxHeight: 720 }}></textarea>
 						</div>
 						<div class="row">
 							<label for="edit-cover-{item.slug}">Cover image</label>

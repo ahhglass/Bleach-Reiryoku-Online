@@ -98,8 +98,8 @@ export const actions: Actions = {
 		const slug = (form.get('slug') as string)?.trim() || '';
 		const title = (form.get('title') as string)?.trim() || '';
 		const date = toIso((form.get('date') as string) || '');
-		const updatedRaw = (form.get('updated') as string)?.trim() || '';
-		const updated = updatedRaw ? toIso(updatedRaw) : new Date().toISOString();
+		// Always set "updated" to now when saving an edit, so the post shows the last change date
+		const updated = new Date().toISOString();
 		const excerpt = (form.get('excerpt') as string)?.trim() || '';
 		const body = (form.get('body') as string)?.trim() || '';
 		let cover_image = (form.get('cover_image') as string)?.trim() || null;
