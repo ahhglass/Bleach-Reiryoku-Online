@@ -48,7 +48,7 @@
 		align-items: center;
 		gap: 15px;
 		position: relative;
-		@include fluid-size(padding-bottom, 2.5rem, 5rem);
+		@include fluid-size(padding, 2.5rem, 5rem);
 	}
 
 	.hello {

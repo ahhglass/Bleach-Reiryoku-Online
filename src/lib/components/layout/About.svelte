@@ -45,7 +45,98 @@
 		aboutImageSrc.startsWith('http') || aboutImageSrc.startsWith('/') ? aboutImageSrc : '/' + aboutImageSrc.replace(/^\//, '')
 	);
 	let imageRef: HTMLDivElement;
+	let wrapRef: HTMLDivElement;
+	let canvasRef: HTMLCanvasElement;
 	let inView = $state(false);
+
+	type Particle = {
+		x: number;
+		y: number;
+		vx: number;
+		vy: number;
+		opacity: number;
+		decay: number;
+		size: number;
+	};
+
+	let particles: Particle[] = [];
+	let rafId = 0;
+	const PARTICLE_COUNT = 100;
+	const EXTRA_TOP = 100;
+
+	function createParticle(w: number, h: number, spawnMinY: number, spawnMaxY: number): Particle {
+		return {
+			x: Math.random() * w,
+			y: spawnMinY + Math.random() * (spawnMaxY - spawnMinY),
+			vx: (Math.random() - 0.5) * 0.4,
+			vy: -Math.random() * 0.7 - 0.2,
+			opacity: 1,
+			decay: 0.0025 + Math.random() * 0.003,
+			size: 0.5 + Math.random() * 1
+		};
+	}
+
+	function tick() {
+		if (!canvasRef || !wrapRef || !inView) {
+			rafId = requestAnimationFrame(tick);
+			return;
+		}
+		const rect = wrapRef.getBoundingClientRect();
+		const w = rect.width;
+		const h = rect.height;
+		if (w <= 0 || h <= 0) {
+			rafId = requestAnimationFrame(tick);
+			return;
+		}
+		const canvasH = h + EXTRA_TOP;
+		const spawnMinY = EXTRA_TOP;
+		const spawnMaxY = canvasH;
+		const dpr = Math.min(2, window.devicePixelRatio || 1);
+		if (
+			canvasRef.width !== w * dpr ||
+			canvasRef.height !== canvasH * dpr
+		) {
+			canvasRef.width = w * dpr;
+			canvasRef.height = canvasH * dpr;
+			canvasRef.style.width = `${w}px`;
+			canvasRef.style.height = `${canvasH}px`;
+			canvasRef.style.top = `-${EXTRA_TOP}px`;
+			canvasRef.style.left = '0';
+		}
+		const ctx = canvasRef.getContext('2d');
+		if (!ctx) {
+			rafId = requestAnimationFrame(tick);
+			return;
+		}
+		ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+		ctx.clearRect(0, 0, w, canvasH);
+
+		// keep pool filled
+		while (particles.length < PARTICLE_COUNT) {
+			particles.push(createParticle(w, h, spawnMinY, spawnMaxY));
+		}
+
+		// update & draw
+		const color =
+			getComputedStyle(document.documentElement).getPropertyValue('--color--text-rgb').trim() ||
+			'255, 255, 255';
+		for (let i = particles.length - 1; i >= 0; i--) {
+			const p = particles[i];
+			p.x += p.vx;
+			p.y += p.vy;
+			p.opacity -= p.decay;
+
+			const dead = p.y < -15 || p.opacity <= 0;
+			if (dead) {
+				particles[i] = createParticle(w, h, spawnMinY, spawnMaxY);
+			} else {
+				ctx.fillStyle = `rgba(${color}, ${Math.max(0, p.opacity)})`;
+				ctx.fillRect(p.x, p.y, p.size, p.size);
+			}
+		}
+
+		rafId = requestAnimationFrame(tick);
+	}
 
 	onMount(() => {
 		const observer = new IntersectionObserver(
@@ -55,7 +146,11 @@
 			{ threshold: 0.2, rootMargin: '0px' }
 		);
 		if (imageRef) observer.observe(imageRef);
-		return () => observer.disconnect();
+		rafId = requestAnimationFrame(tick);
+		return () => {
+			observer.disconnect();
+			cancelAnimationFrame(rafId);
+		};
 	});
 </script>
 
@@ -81,12 +176,14 @@
 	<div
 		class="image {inView ? 'in-view' : ''}"
 		bind:this={imageRef}
-		style="--about-img: url('{aboutImageUrl}')"
 	>
-		<div class="glitch-wrap">
+		<div class="image-wrap" bind:this={wrapRef}>
 			<img src={aboutImageUrl} alt="About" loading="lazy" decoding="async" />
-			<span class="glitch glitch-r" aria-hidden="true"></span>
-			<span class="glitch glitch-g" aria-hidden="true"></span>
+			<canvas
+				class="particles-canvas"
+				bind:this={canvasRef}
+				aria-hidden="true"
+			></canvas>
 		</div>
 	</div>
 </section>
@@ -101,7 +198,7 @@
 		grid-template-columns: 500px 250px;
 		align-items: center;
 		justify-content: space-between;
-		padding: 6em 0 3em 0;
+		padding: 8.25em 0 0.75em 0;
 		width: 100%;
 		max-width: 1080px;
 		margin: 0 auto;
@@ -109,7 +206,7 @@
 		@include for-phone-only {
 			grid-template-columns: 1fr;
 			justify-items: center;
-			gap: 20px;
+			gap: 6em 20px;
 		}
 	}
 
@@ -173,46 +270,31 @@
 			animation: slide-in-bounce 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 		}
 
-		.glitch-wrap {
+		.image-wrap {
 			position: relative;
 			width: 100%;
 			height: 100%;
-			overflow: hidden;
+			overflow: visible;
 			border-radius: 6px;
 		}
 
-		img {
+		.image-wrap img {
 			width: 100%;
 			height: 100%;
 			object-fit: contain;
 			display: block;
-			position: relative;
-			z-index: 1;
-			animation: glitch-photo 6s infinite;
+			border-radius: 6px;
 		}
 
-		.glitch {
+		.particles-canvas {
 			position: absolute;
-			inset: 0;
-			background-image: var(--about-img);
-			background-size: contain;
-			background-position: center;
-			background-repeat: no-repeat;
+			left: 0;
+			top: -100px;
+			width: 100%;
+			height: calc(100% + 100px);
 			pointer-events: none;
-			z-index: 0;
-			opacity: 0;
-		}
-
-		.glitch-r {
-			animation: glitch-r 6s infinite;
-			mix-blend-mode: screen;
-			filter: hue-rotate(90deg);
-		}
-
-		.glitch-g {
-			animation: glitch-g 6s infinite;
-			mix-blend-mode: screen;
-			filter: hue-rotate(-90deg);
+			border-radius: 6px;
+			z-index: 1;
 		}
 	}
 
@@ -231,71 +313,6 @@
 		100% {
 			transform: translateX(0);
 			opacity: 1;
-		}
-	}
-
-	@keyframes glitch-photo {
-		0%, 88%, 92%, 100% {
-			transform: translate(0, 0);
-			filter: none;
-		}
-		89% {
-			transform: translate(-3px, 1px);
-			filter: contrast(1.1);
-		}
-		90% {
-			transform: translate(2px, -2px);
-			filter: contrast(1.1);
-		}
-		91% {
-			transform: translate(0, 0);
-			filter: none;
-		}
-	}
-
-	@keyframes glitch-r {
-		0%, 88%, 92%, 100% {
-			opacity: 0;
-			transform: translate(0, 0);
-			clip-path: inset(0 0 0 0);
-		}
-		89% {
-			opacity: 0.7;
-			transform: translate(4px, -2px);
-			clip-path: inset(0 60% 0 0);
-		}
-		90% {
-			opacity: 0.5;
-			transform: translate(-3px, 2px);
-			clip-path: inset(0 0 0 60%);
-		}
-		91% {
-			opacity: 0;
-			transform: translate(0, 0);
-			clip-path: inset(0 0 0 0);
-		}
-	}
-
-	@keyframes glitch-g {
-		0%, 88%, 92%, 100% {
-			opacity: 0;
-			transform: translate(0, 0);
-			clip-path: inset(0 0 0 0);
-		}
-		89% {
-			opacity: 0.5;
-			transform: translate(-4px, 2px);
-			clip-path: inset(0 0 60% 0);
-		}
-		90% {
-			opacity: 0.7;
-			transform: translate(3px, -1px);
-			clip-path: inset(60% 0 0 0);
-		}
-		91% {
-			opacity: 0;
-			transform: translate(0, 0);
-			clip-path: inset(0 0 0 0);
 		}
 	}
 </style>
