@@ -415,13 +415,21 @@
 		display: grid;
 		grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
 		gap: 1rem;
+		align-items: stretch;
 
 		@include for-phone-only {
 			grid-template-columns: repeat(2, 1fr);
 		}
 
 		.card-item {
+			display: flex;
+			min-height: 0;
 			opacity: 0;
+
+			& > :global(a) {
+				flex: 1 1 auto;
+				min-width: 0;
+			}
 		}
 
 		&.mounted .card-item {

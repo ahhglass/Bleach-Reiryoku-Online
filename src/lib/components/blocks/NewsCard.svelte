@@ -39,6 +39,7 @@
 	{/if}
 	<div class="body">
 		<h3 class="title">{title}</h3>
+		<span class="spacer" aria-hidden="true"></span>
 		{#if readingTime}
 			<span class="meta">{readingTime}</span>
 		{/if}
@@ -62,6 +63,8 @@
 	.news-card {
 		display: flex;
 		flex-direction: column;
+		height: 100%;
+		min-height: 0;
 		background: var(--color--card-background);
 		border-radius: 10px;
 		overflow: hidden;
@@ -89,12 +92,20 @@
 		padding: 1rem 1.25rem;
 		display: flex;
 		flex-direction: column;
+		flex: 1 1 auto;
+		min-height: 0;
 		gap: 0.5rem;
 
 		@include for-phone-only {
 			padding: 0.5rem 0.5rem 0.6rem;
 			gap: 0.25rem;
 		}
+	}
+
+	.spacer {
+		flex: 1 1 0;
+		min-height: 0.35rem;
+		display: block;
 	}
 
 	.title {
