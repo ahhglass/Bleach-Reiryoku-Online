@@ -1,15 +1,9 @@
-import { filteredNews, getPostsFromDb } from '$lib/data/news-posts';
-import { siteBaseUrl } from '$lib/data/meta';
 import { getSupabaseServer } from '$lib/supabaseServer';
+import { getNewsFeedItems } from '$lib/data/news-feed';
+import { siteBaseUrl } from '$lib/data/meta';
 
-function escapeXml(unsafe: string): string {
-	return unsafe
-		.replace(/&/g, '&amp;')
-		.replace(/</g, '&lt;')
-		.replace(/>/g, '&gt;')
-		.replace(/"/g, '&quot;')
-		.replace(/'/g, '&apos;');
-}
+const xml = (s: string) =>
+	s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&apos;');
 
 export async function GET() {
 	let base = siteBaseUrl.replace(/\/$/, '');
@@ -17,47 +11,45 @@ export async function GET() {
 		const supabase = getSupabaseServer();
 		const { data } = await supabase.from('site_settings').select('key, value');
 		if (data?.length) {
-			const map = Object.fromEntries((data as { key: string; value: string }[]).map((r) => [r.key, r.value]));
-			const url = (map.site_base_url ?? '').trim().replace(/\/$/, '');
+			const m = Object.fromEntries((data as { key: string; value: string }[]).map((r) => [r.key, r.value]));
+			const url = (m.site_base_url ?? '').trim().replace(/\/$/, '');
 			if (url) base = url;
 		}
 	} catch {
-		// keep meta fallback
+		// keep fallback
 	}
-	const staticPages = [
-		{ url: `${base}/`, priority: '1.0', changefreq: 'weekly' as const },
-		{ url: `${base}/news`, priority: '0.9', changefreq: 'daily' as const },
-		{ url: `${base}/team`, priority: '0.8', changefreq: 'monthly' as const },
-		{ url: `${base}/faq`, priority: '0.8', changefreq: 'monthly' as const }
+
+	const staticUrls = [
+		{ loc: `${base}/`, priority: '1.0', changefreq: 'weekly' },
+		{ loc: `${base}/news`, priority: '0.9', changefreq: 'daily' },
+		{ loc: `${base}/team`, priority: '0.8', changefreq: 'monthly' },
+		{ loc: `${base}/faq`, priority: '0.8', changefreq: 'monthly' }
 	];
-	const newsSource = (await getPostsFromDb()) ?? filteredNews;
-	const newsPages = newsSource.map((p) => ({
-		url: `${base}/news/${escapeXml(p.slug)}`,
+	const newsItems = await getNewsFeedItems();
+	const newsUrls = newsItems.map((p) => ({
+		loc: `${base}/news/${p.slug}`,
+		lastmod: (p.updated ?? p.date).slice(0, 10),
 		priority: '0.7',
-		changefreq: 'monthly' as const,
-		lastmod: p.updated ?? p.date
+		changefreq: 'monthly' as const
 	}));
 
-	const urls = [
-		...staticPages.map(
-			(u) =>
-				`  <url>\n    <loc>${escapeXml(u.url)}</loc>\n    <changefreq>${u.changefreq}</changefreq>\n    <priority>${u.priority}</priority>\n  </url>`
+	const urlNodes = [
+		...staticUrls.map(
+			(u) => `  <url><loc>${xml(u.loc)}</loc><changefreq>${u.changefreq}</changefreq><priority>${u.priority}</priority></url>`
 		),
-		...newsPages.map(
+		...newsUrls.map(
 			(u) =>
-				`  <url>\n    <loc>${escapeXml(u.url)}</loc>\n    <lastmod>${new Date(u.lastmod).toISOString().slice(0, 10)}</lastmod>\n    <changefreq>${u.changefreq}</changefreq>\n    <priority>${u.priority}</priority>\n  </url>`
+				`  <url><loc>${xml(u.loc)}</loc><lastmod>${u.lastmod}</lastmod><changefreq>${u.changefreq}</changefreq><priority>${u.priority}</priority></url>`
 		)
 	].join('\n');
 
-	const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+	return new Response(
+		`<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${urls}
-</urlset>`;
-
-	return new Response(sitemap, {
-		headers: {
-			'Content-Type': 'application/xml; charset=utf-8',
-			'Cache-Control': 'public, max-age=3600'
+${urlNodes}
+</urlset>`,
+		{
+			headers: { 'Content-Type': 'application/xml; charset=utf-8', 'Cache-Control': 'public, max-age=3600' }
 		}
-	});
+	);
 }
