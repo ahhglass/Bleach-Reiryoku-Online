@@ -28,7 +28,7 @@ export async function GET() {
 	const newsItems = await getNewsFeedItems();
 	const newsUrls = newsItems.map((p) => ({
 		loc: `${base}/news/${p.slug}`,
-		lastmod: (p.updated ?? p.date).slice(0, 10),
+		lastmod: (p.updated ?? p.updated_at ?? p.date).slice(0, 10),
 		priority: '0.7',
 		changefreq: 'monthly' as const
 	}));
