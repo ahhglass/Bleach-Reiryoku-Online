@@ -1,5 +1,6 @@
 import { parse as parseMarkdown } from 'marked';
 import readingTime from 'reading-time/lib/reading-time';
+import { embedVideoLinks } from '$lib/utils/embedVideoLinks';
 import type { NewsPost } from '$lib/utils/types';
 
 export type NewsRow = {
@@ -14,9 +15,10 @@ export type NewsRow = {
 	hidden: boolean;
 };
 
-/** Convert DB row to NewsPost; body (markdown) -> html */
+/** Convert DB row to NewsPost; body (markdown) -> html, with YouTube/TikTok links as embeds */
 export function rowToPost(row: NewsRow, relatedPosts: NewsPost[] = []): NewsPost {
-	const html = row.body ? (parseMarkdown(row.body, { async: false }) as string) : '';
+	let html = row.body ? (parseMarkdown(row.body, { async: false }) as string) : '';
+	html = embedVideoLinks(html);
 	const readingTimeResult = row.excerpt ? readingTime(row.excerpt) : undefined;
 	return {
 		slug: row.slug,

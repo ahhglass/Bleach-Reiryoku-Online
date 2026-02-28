@@ -1,5 +1,6 @@
 <script lang="ts">
 	import ImageWithSkeleton from '$ui/ImageWithSkeleton.svelte';
+	import { parseVideoCoverUrl } from '$lib/utils/embedVideoLinks';
 	import { sound } from '$lib/utils/sound';
 
 	interface Props {
@@ -23,18 +24,42 @@
 	}: Props = $props();
 
 	const href = $derived(`/news/${slug}`);
+	const coverVideo = $derived(parseVideoCoverUrl(coverImage));
 </script>
 
 <a href={href} class="news-card" data-sveltekit-preload-data use:sound>
 	{#if showImage && coverImage}
 		<div class="image">
-			<ImageWithSkeleton
-				src={coverImage}
-				alt={title}
-				aspectRatio="16/10"
-				loading="lazy"
-				decoding="async"
-			/>
+			{#if coverVideo}
+				<div class="cover-media cover-media--video" style="--aspect-ratio: 16/10">
+					<div class="cover-media__wrapper">
+						{#if coverVideo.type === 'youtube'}
+							<iframe
+								title="YouTube video"
+								src="https://www.youtube.com/embed/{coverVideo.videoId}"
+								allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+								allowfullscreen
+								loading="lazy"
+							></iframe>
+						{:else}
+							<iframe
+								title="TikTok video"
+								src="https://www.tiktok.com/player/v1/{coverVideo.videoId}"
+								allow="fullscreen"
+								loading="lazy"
+							></iframe>
+						{/if}
+					</div>
+				</div>
+			{:else}
+				<ImageWithSkeleton
+					src={coverImage}
+					alt={title}
+					aspectRatio="16/10"
+					loading="lazy"
+					decoding="async"
+				/>
+			{/if}
 		</div>
 	{/if}
 	<div class="body">
@@ -86,6 +111,30 @@
 		:global(.image-with-skeleton) {
 			width: 100%;
 		}
+	}
+
+	.cover-media--video {
+		position: relative;
+		width: 100%;
+		aspect-ratio: var(--aspect-ratio, 16/10);
+		overflow: hidden;
+		background: var(--color--team-card-avatar-bg, #e8e8e8);
+	}
+	.cover-media__wrapper {
+		position: absolute;
+		inset: 0;
+	}
+	/* Cover 16/10: scale 16/9 video to fill height, crop sides (no letterboxing) */
+	.cover-media__wrapper iframe {
+		position: absolute;
+		top: 0;
+		left: 50%;
+		width: 111.11%; /* 10/9 of container so height fills at 16/9 */
+		height: 100%;
+		min-width: 100%;
+		transform: translateX(-50%);
+		border: none;
+		pointer-events: auto;
 	}
 
 	.body {

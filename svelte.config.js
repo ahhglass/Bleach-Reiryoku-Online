@@ -13,6 +13,10 @@ const extensions = ['.svelte', '.md'];
 const config = {
 	kit: {
 		adapter: adapter(),
+		// base: '' (default) or e.g. '/app' — must start with / and must NOT end with /
+		paths: {
+			base: ''
+		},
 		prerender: {
 			// /rss.xml is linked from Footer but the route may be added later; don't fail the build
 			handleHttpError: ({ path, message }) => {

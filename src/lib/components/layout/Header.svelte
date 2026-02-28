@@ -23,12 +23,14 @@
 	const navLinks = $derived(links.length > 0 ? links : [{ href: '/', label: 'Home' }]);
 
 	let mobileOpen = $state(false);
+	let menuToggleEl = $state<HTMLButtonElement | null>(null);
 
 	function toggleMobile() {
 		mobileOpen = !mobileOpen;
 	}
 
 	function closeMobile() {
+		menuToggleEl?.focus({ preventScroll: true });
 		mobileOpen = false;
 	}
 
@@ -87,9 +89,11 @@
 		<button
 			type="button"
 			class="menu-toggle"
+			bind:this={menuToggleEl}
 			use:sound
 			aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
 			aria-expanded={mobileOpen}
+			aria-controls="mobile-menu"
 			onclick={toggleMobile}
 		>
 			<span class="menu-icon" class:open={mobileOpen} aria-hidden="true">
@@ -109,6 +113,7 @@
 
 	<!-- svelte-ignore a11y_click_events_have_key_events a11y_no_static_element_interactions -->
 	<div
+		id="mobile-menu"
 		class="mobile-overlay"
 		class:open={mobileOpen}
 		role="dialog"

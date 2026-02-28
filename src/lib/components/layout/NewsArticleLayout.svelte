@@ -6,6 +6,7 @@
 	import type { NewsPost } from '$lib/utils/types';
 	import ImageWithSkeleton from '$ui/ImageWithSkeleton.svelte';
 	import NewsCard from '$blocks/NewsCard.svelte';
+	import { parseVideoCoverUrl } from '$lib/utils/embedVideoLinks';
 	import { ArrowLeft as ArrowLeftIcon } from '$lib/icons';
 	import { sound } from '$lib/utils/sound';
 
@@ -21,6 +22,7 @@
 	let { post, siteTitle = '', siteBaseUrl = '', children }: Props = $props();
 
 	const baseUrl = $derived((siteBaseUrl || '').replace(/\/$/, ''));
+	const coverVideo = $derived(parseVideoCoverUrl(post.coverImage));
 
 	let mounted = $state(false);
 
@@ -61,7 +63,7 @@
 	<title>{post.title} — {siteTitle}</title>
 	<meta property="og:title" content="{post.title} — {siteTitle}" />
 	<meta name="twitter:title" content="{post.title} — {siteTitle}" />
-	{#if post.coverImage}
+	{#if post.coverImage && !coverVideo}
 		<meta property="og:image" content="{post.coverImage.startsWith('http') ? post.coverImage : baseUrl + (post.coverImage.startsWith('/') ? post.coverImage : '/' + post.coverImage)}" />
 		<meta name="twitter:image" content="{post.coverImage.startsWith('http') ? post.coverImage : baseUrl + (post.coverImage.startsWith('/') ? post.coverImage : '/' + post.coverImage)}" />
 	{/if}
@@ -98,17 +100,40 @@
 				</div>
 			</header>
 			{#if post.coverImage}
-				<div class="cover-image">
-					<ImageWithSkeleton
-						src={post.coverImage}
-						alt={post.title}
-						aspectRatio="16/9"
-						loading="eager"
-						decoding="async"
-						fetchpriority="high"
-						class="cover-img"
-					/>
-				</div>
+				{#if coverVideo}
+					<div class="cover-image cover-image--video">
+						<div class="cover-video-wrapper">
+							{#if coverVideo?.type === 'youtube'}
+								<iframe
+									title="YouTube video"
+									src="https://www.youtube.com/embed/{coverVideo.videoId}"
+									allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+									allowfullscreen
+									loading="eager"
+								></iframe>
+							{:else if coverVideo.type === 'tiktok'}
+								<iframe
+									title="TikTok video"
+									src="https://www.tiktok.com/player/v1/{coverVideo.videoId}"
+									allow="fullscreen"
+									loading="eager"
+								></iframe>
+							{/if}
+						</div>
+					</div>
+				{:else}
+					<div class="cover-image">
+						<ImageWithSkeleton
+							src={post.coverImage}
+							alt={post.title}
+							aspectRatio="16/9"
+							loading="eager"
+							decoding="async"
+							fetchpriority="high"
+							class="cover-img"
+						/>
+					</div>
+				{/if}
 			{/if}
 			<div class="content">
 				{@render children()}
@@ -373,6 +398,30 @@
 			:global(.image-with-skeleton img) {
 				max-height: 400px;
 				object-fit: cover;
+			}
+		}
+
+		.cover-image--video {
+			position: relative;
+			width: min(var(--main-column-width), 100%);
+			margin: 0 auto;
+			max-height: 400px;
+			aspect-ratio: 16 / 9;
+			border-radius: 6px;
+			overflow: hidden;
+		}
+
+		.cover-video-wrapper {
+			position: absolute;
+			inset: 0;
+
+			iframe {
+				position: absolute;
+				inset: 0;
+				width: 100%;
+				height: 100%;
+				border: none;
+				border-radius: 6px;
 			}
 		}
 

@@ -100,16 +100,17 @@ export const actions: Actions = {
 		const date = toIso((form.get('date') as string) || '');
 		// Always set "updated" to now when saving an edit, so the post shows the last change date
 		const updated = new Date().toISOString();
-		const excerpt = (form.get('excerpt') as string)?.trim() || '';
-		const body = (form.get('body') as string)?.trim() || '';
-		let cover_image = (form.get('cover_image') as string)?.trim() || null;
+		const excerpt = (form.get('excerpt') as string)?.trim() ?? '';
+		const body = (form.get('body') as string)?.trim() ?? '';
+		const coverImageRaw = (form.get('cover_image') as string)?.trim() ?? '';
+		let cover_image: string | null = coverImageRaw || null;
 		const coverFile = form.get('cover_file') as File | null;
 		if (coverFile?.size && coverFile?.type?.startsWith('image/')) {
 			const supabase = getSupabaseServer();
 			const url = await uploadCover(supabase, coverFile, slug);
 			if (url) cover_image = url;
 		}
-		const tags = parseTags((form.get('tags') as string) || '');
+		const tags = parseTags((form.get('tags') as string) ?? '');
 		const hidden = form.get('hidden') === 'on' || form.get('hidden') === 'true';
 		if (!slug || !title) {
 			return fail(400, { updateError: 'Slug and title are required.' });

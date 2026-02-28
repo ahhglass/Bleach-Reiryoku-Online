@@ -1,7 +1,14 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+	import { invalidateAll } from '$app/navigation';
 	import { sound } from '$lib/utils/sound';
+	import { parseVideoCoverUrl } from '$lib/utils/embedVideoLinks';
 	import type { NewsRow } from '$lib/data/news-posts/fromSupabase';
+
+	/** YouTube thumbnail URL for admin preview (video cover). */
+	function youtubeThumbUrl(videoId: string): string {
+		return `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
+	}
 
 	interface Props {
 		data: {
@@ -99,6 +106,7 @@
 		if (editCoverPreviewUrl) URL.revokeObjectURL(editCoverPreviewUrl);
 		editCoverPreviewUrl = null;
 		editCoverFileName = '';
+		editCoverImage = '';
 		if (editCoverInputRef) {
 			const dt = new DataTransfer();
 			editCoverInputRef.files = dt.files;
@@ -275,7 +283,10 @@
 						enctype="multipart/form-data"
 						use:enhance={() => {
 							return async ({ result }) => {
-								if (result.type === 'success' && result.data?.updateSuccess) editingSlug = null;
+								if (result.type === 'success' && result.data?.updateSuccess) {
+									editingSlug = null;
+									await invalidateAll();
+								}
 							};
 						}}
 					>
@@ -335,7 +346,17 @@
 									{#if editCoverPreviewUrl}
 										<img class="file-upload-image" src={editCoverPreviewUrl} alt="Preview" />
 									{:else if editCoverImage}
-										<img class="file-upload-image" src={editCoverImage} alt="Current cover" />
+										{@const coverVideo = parseVideoCoverUrl(editCoverImage)}
+										{#if coverVideo?.type === 'youtube'}
+											<img class="file-upload-image" src={youtubeThumbUrl(coverVideo.videoId)} alt="YouTube cover" />
+										{:else if coverVideo?.type === 'tiktok'}
+											<div class="cover-video-placeholder">
+												<span>TikTok video</span>
+												<small>{editCoverImage}</small>
+											</div>
+										{:else}
+											<img class="file-upload-image" src={editCoverImage} alt="Current cover" />
+										{/if}
 									{/if}
 									<div class="image-title-wrap">
 										<button type="button" class="remove-image" use:sound onclick={() => removeEditCover()}>
@@ -382,3 +403,26 @@
 		<p class="empty">No posts. Add one above.</p>
 	{/if}
 </section>
+
+<style>
+	.cover-video-placeholder {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		gap: 0.5rem;
+		padding: 1rem;
+		background: var(--color--team-card-avatar-bg, #2a2a2a);
+		color: var(--color--text-shade);
+		font-size: 0.9rem;
+		min-height: 120px;
+	}
+	.cover-video-placeholder small {
+		font-size: 0.7rem;
+		opacity: 0.8;
+		max-width: 100%;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+</style>

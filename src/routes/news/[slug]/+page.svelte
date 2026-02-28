@@ -71,4 +71,34 @@
 		background: none;
 		padding: 0;
 	}
+
+	/* Responsive video embeds (YouTube, TikTok) */
+	.article-body :global(.video-embed) {
+		margin: 1.5em 0;
+		max-width: 100%;
+	}
+	.article-body :global(.video-embed__wrapper) {
+		position: relative;
+		width: 100%;
+		padding-bottom: 56.25%; /* 16:9 */
+		height: 0;
+		overflow: hidden;
+		border-radius: 8px;
+		background: var(--color--code-inline-background, #1a1a1a);
+	}
+	.article-body :global(.video-embed__wrapper iframe) {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		border: none;
+	}
+	/* TikTok is often vertical; allow taller aspect on small screens */
+	.article-body :global(.video-embed--tiktok .video-embed__wrapper) {
+		padding-bottom: 177.78%; /* 9:16 */
+		max-width: 360px;
+		margin-left: auto;
+		margin-right: auto;
+	}
 </style>
