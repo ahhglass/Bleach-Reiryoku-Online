@@ -37,8 +37,14 @@ export async function GET() {
 	const base = settings.site_base_url || siteBaseUrl.replace(/\/$/, '');
 	const siteTitle = settings.site_title || 'News';
 	const description = settings.site_description || '';
-	const dbPosts = await getPostsFromDb();
-	const posts = (dbPosts?.length ? dbPosts : filteredNews).slice(0, 20);
+
+	let posts: { slug: string; title: string; date: string; excerpt: string }[];
+	try {
+		const dbPosts = await getPostsFromDb();
+		posts = (dbPosts?.length ? dbPosts : filteredNews).slice(0, 20);
+	} catch {
+		posts = filteredNews.slice(0, 20);
+	}
 
 	const rss = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
