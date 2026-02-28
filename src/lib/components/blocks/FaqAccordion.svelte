@@ -2,6 +2,7 @@
 	import { slide } from 'svelte/transition';
 	import type { FaqItem } from '$lib/data/faq';
 	import { sound } from '$lib/utils/sound';
+	import { ArrowDown as ArrowDownIcon, ArrowUp as ArrowUpIcon } from '$lib/icons';
 
 	interface Props {
 		item: FaqItem;
@@ -25,7 +26,13 @@
 		<span class="question">{item.question}</span>
 		<span class="meta">
 			<span class="tag">{item.tag}</span>
-			<span class="icon" aria-hidden="true">{open ? '↑' : '↓'}</span>
+			<span class="icon" aria-hidden="true">
+				{#if open}
+					<ArrowUpIcon />
+				{:else}
+					<ArrowDownIcon />
+				{/if}
+			</span>
 		</span>
 	</button>
 	{#if open}
@@ -141,11 +148,21 @@
 	}
 
 	.icon {
-		font-size: 0.9rem;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 1rem;
+		height: 1rem;
 		color: var(--color--text-shade);
 
+		:global(svg) {
+			width: 100%;
+			height: 100%;
+		}
+
 		@include for-phone-only {
-			font-size: 0.8rem;
+			width: 0.9rem;
+			height: 0.9rem;
 		}
 	}
 

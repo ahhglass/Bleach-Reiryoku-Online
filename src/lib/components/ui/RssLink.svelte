@@ -1,5 +1,5 @@
 <script lang="ts">
-	import RssIcon from '$lib/icons/rss.svelte';
+	import { Rss as RssIcon } from '$lib/icons';
 	import { sound } from '$lib/utils/sound';
 </script>
 

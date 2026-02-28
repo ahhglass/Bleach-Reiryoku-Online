@@ -1,6 +1,5 @@
 <script lang="ts">
-	import PlayNowIcon from '$lib/icons/playnow.svelte';
-	import DiscordIcon from '$lib/icons/discord.svelte';
+	import { Playnow as PlayNowIcon, Discord as DiscordIcon } from '$lib/icons';
 	import Button from '$ui/Button.svelte';
 	import Sparkles from '$ui/Sparkles.svelte';
 	import { serverModalOpen } from '$lib/stores/serverModal';

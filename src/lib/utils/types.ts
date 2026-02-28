@@ -1,7 +1,20 @@
 /** One social link: label (title), url, icon key. */
 export type SocialLinkItem = { label: string; url: string; icon: string };
 
-export const SOCIAL_ICON_KEYS = ['telegram', 'x', 'github', 'email', 'linkedin', 'discord', 'mastodon', 'link'] as const;
+export const SOCIAL_ICON_KEYS = [
+	'telegram',
+	'x',
+	'github',
+	'email',
+	'linkedin',
+	'discord',
+	'mastodon',
+	'youtube',
+	'tiktok',
+	'curseforge',
+	'rss',
+	'link'
+] as const;
 export type SocialIconKey = (typeof SOCIAL_ICON_KEYS)[number];
 
 /** For site: only items with non-empty URL. */

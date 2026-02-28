@@ -1,12 +1,18 @@
 <script lang="ts">
-	import TelegramIcon from '$lib/icons/telegram.svelte';
-	import GitHubIcon from '$lib/icons/github.svelte';
-	import LinkedInIcon from '$lib/icons/linkedin.svelte';
-	import EmailIcon from '$lib/icons/email.svelte';
-	import X from '$lib/icons/x.svelte';
-	import DiscordIcon from '$lib/icons/discord.svelte';
-	import MastodonIcon from '$lib/icons/mastodon.svelte';
-	import LinkIcon from '$lib/icons/link.svelte';
+	import {
+		Telegram as TelegramIcon,
+		GitHub as GitHubIcon,
+		LinkedIn as LinkedInIcon,
+		Email as EmailIcon,
+		X,
+		Discord as DiscordIcon,
+		Mastodon as MastodonIcon,
+		Link as LinkIcon,
+		Youtube as YoutubeIcon,
+		Tiktok as TiktokIcon,
+		Curseforge as CurseforgeIcon,
+		Rss as RssIcon
+	} from '$lib/icons';
 	import { sound } from '$lib/utils/sound';
 	import type { SocialLinkItem } from '$lib/utils/types';
 
@@ -24,6 +30,10 @@
 		linkedin: LinkedInIcon,
 		discord: DiscordIcon,
 		mastodon: MastodonIcon,
+		youtube: YoutubeIcon,
+		tiktok: TiktokIcon,
+		curseforge: CurseforgeIcon,
+		rss: RssIcon,
 		link: LinkIcon
 	};
 	function href(url: string): string {

@@ -6,7 +6,7 @@
 	import type { NewsPost } from '$lib/utils/types';
 	import ImageWithSkeleton from '$ui/ImageWithSkeleton.svelte';
 	import NewsCard from '$blocks/NewsCard.svelte';
-	import ArrowLeftIcon from '$lib/icons/arrow-left.svelte';
+	import { ArrowLeft as ArrowLeftIcon } from '$lib/icons';
 	import { sound } from '$lib/utils/sound';
 
 	interface Props {

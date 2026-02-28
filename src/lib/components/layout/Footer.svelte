@@ -1,5 +1,5 @@
 <script lang="ts">
-	import FooterWave from '$lib/icons/footer-wave.svelte';
+	import { FooterWave } from '$lib/icons';
 	import Socials from '$blocks/Socials.svelte';
 	import ThemeToggle from '$blocks/ThemeToggle.svelte';
 	import RssLink from '$ui/RssLink.svelte';

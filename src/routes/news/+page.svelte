@@ -2,8 +2,7 @@
 	import { onMount } from 'svelte';
 	import NewsCard from '$blocks/NewsCard.svelte';
 	import type { SiteSettings } from '../+layout.server';
-	import NavArrowLeft from '$lib/icons/nav-arrow-left.svelte';
-	import NavArrowRight from '$lib/icons/nav-arrow-right.svelte';
+	import { NavArrowLeft, NavArrowRight } from '$lib/icons';
 	import type { NewsPost } from '$lib/utils/types';
 
 	interface Props {

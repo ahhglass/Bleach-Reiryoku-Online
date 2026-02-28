@@ -1,10 +1,9 @@
 <script lang="ts">
 	import FaqAccordion from '$blocks/FaqAccordion.svelte';
-	import SearchIcon from '$lib/icons/search.svelte';
+	import { Search as SearchIcon, ExpandLines as ExpandLinesIcon, CompressLines as CompressLinesIcon, Curseforge as CurseForgeIcon } from '$lib/icons';
 	import type { FaqItem } from '$lib/data/faq';
 	import type { SiteSettings } from '../+layout.server';
 	import Button from '$ui/Button.svelte';
-	import CurseForgeIcon from '$lib/icons/curseforge.svelte';
 	import Sparkles from '$ui/Sparkles.svelte';
 
 	interface Props {
@@ -117,8 +116,14 @@
 				</div>
 			</div>
 			<div class="actions">
-				<button type="button" class="action-btn" onclick={expandAll}>Expand all</button>
-				<button type="button" class="action-btn" onclick={collapseAll}>Collapse all</button>
+				<button type="button" class="action-btn" onclick={expandAll}>
+					<span class="action-btn-icon" aria-hidden="true"><ExpandLinesIcon /></span>
+					Expand all
+				</button>
+				<button type="button" class="action-btn" onclick={collapseAll}>
+					<span class="action-btn-icon" aria-hidden="true"><CompressLinesIcon /></span>
+					Collapse all
+				</button>
 			</div>
 		</div>
 
@@ -473,6 +478,9 @@
 	}
 
 	.action-btn {
+		display: inline-flex;
+		align-items: center;
+		gap: 4px;
 		padding: 4px 10px;
 		font-size: 0.75rem;
 		font-weight: 500;
@@ -500,6 +508,20 @@
 		@include for-phone-only {
 			padding: 6px 10px;
 			font-size: 0.8125rem;
+		}
+	}
+
+	.action-btn-icon {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 1rem;
+		height: 1rem;
+		flex-shrink: 0;
+
+		:global(svg) {
+			width: 100%;
+			height: 100%;
 		}
 	}
 

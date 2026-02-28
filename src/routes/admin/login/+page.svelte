@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import EyeIcon from '$lib/icons/eye.svelte';
-	import EyeCloseIcon from '$lib/icons/eye-close.svelte';
+	import { Eye as EyeIcon, EyeClose as EyeCloseIcon } from '$lib/icons';
 	import { sound } from '$lib/utils/sound';
 
 	interface Props {

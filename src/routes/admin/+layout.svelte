@@ -1,8 +1,7 @@
 <script lang="ts">
 	import './admin.css';
 	import { sound } from '$lib/utils/sound';
-	import UserIcon from '$lib/icons/user.svelte';
-	import ExitIcon from '$lib/icons/exit.svelte';
+	import { User as UserIcon, Exit as ExitIcon } from '$lib/icons';
 
 	interface Props {
 		data: { admin?: { id: string; login: string } };

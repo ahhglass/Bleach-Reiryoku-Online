@@ -1,10 +1,18 @@
 <script lang="ts">
-	import TelegramIcon from '$lib/icons/telegram.svelte';
-	import GitHubIcon from '$lib/icons/github.svelte';
-	import XIcon from '$lib/icons/x.svelte';
-	import DiscordIcon from '$lib/icons/discord.svelte';
-	import EmailIcon from '$lib/icons/email.svelte';
-	import LinkedInIcon from '$lib/icons/linkedin.svelte';
+	import {
+		Telegram as TelegramIcon,
+		GitHub as GitHubIcon,
+		X as XIcon,
+		Discord as DiscordIcon,
+		Email as EmailIcon,
+		LinkedIn as LinkedInIcon,
+		Youtube as YoutubeIcon,
+		Tiktok as TiktokIcon,
+		Curseforge as CurseforgeIcon,
+		Rss as RssIcon,
+		Mastodon as MastodonIcon,
+		Link as LinkIcon
+	} from '$lib/icons';
 	import type { TeamMember } from '$lib/data/team';
 	import { sound, soundManager, isTouchDevice } from '$lib/utils/sound';
 
@@ -69,6 +77,18 @@
 							<EmailIcon />
 						{:else if social.type === 'linkedin'}
 							<LinkedInIcon />
+						{:else if social.type === 'youtube'}
+							<YoutubeIcon />
+						{:else if social.type === 'tiktok'}
+							<TiktokIcon />
+						{:else if social.type === 'curseforge'}
+							<CurseforgeIcon />
+						{:else if social.type === 'rss'}
+							<RssIcon />
+						{:else if social.type === 'mastodon'}
+							<MastodonIcon />
+						{:else}
+							<LinkIcon />
 						{/if}
 					</a>
 				{/each}
