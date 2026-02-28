@@ -18,11 +18,8 @@
 	const tags = $derived(data?.tags ?? []);
 
 	let search = $state('');
-	let searchFocused = $state(false);
 	let activeTag = $state('');
 	let openIds = $state<Set<string>>(new Set());
-
-	const labelFloating = $derived(search.length > 0 || searchFocused);
 
 	const filteredItems = $derived(
 		items.filter((item) => {
@@ -79,8 +76,7 @@
 					type="search"
 					class="search-input"
 					bind:value={search}
-					onfocus={() => (searchFocused = true)}
-					onblur={() => (searchFocused = false)}
+					placeholder="Search questions or keywords"
 					aria-label="Search FAQ"
 					autocomplete="off"
 				/>
@@ -94,9 +90,6 @@
 						<span class="search-clear-icon" aria-hidden="true"><XmarkIcon /></span>
 					</button>
 				{/if}
-				<label for="faq-search" class="search-label" class:floating={labelFloating}>
-					Search questions or keywords
-				</label>
 			</div>
 			<div class="search-curseforge-wrap">
 				<Sparkles>
@@ -320,6 +313,7 @@
 		width: 100%;
 		padding: 8px 12px 8px 42px;
 		font-size: 1rem;
+		line-height: 1.5;
 		border: none;
 		border-radius: 20px;
 		background: var(--color--team-card-bg);
@@ -328,6 +322,11 @@
 		transition: box-shadow 0.3s ease;
 		-webkit-appearance: none;
 		appearance: none;
+		box-sizing: border-box;
+
+		&::placeholder {
+			color: var(--color--text-shade);
+		}
 
 		&:focus {
 			outline: none;
@@ -341,8 +340,9 @@
 		}
 
 		@include for-phone-only {
-			padding: 14px 12px 8px 40px;
+			padding: 7px 12px 6px 40px;
 			font-size: 0.9375rem;
+			min-height: 2.5rem;
 		}
 	}
 
@@ -393,37 +393,6 @@
 				height: 1rem;
 			}
 		}
-	}
-
-	.search-label {
-		position: absolute;
-		left: 44px;
-		top: 50%;
-		transform: translateY(-50%);
-		font-size: 1rem;
-		color: var(--color--text-shade);
-		pointer-events: none;
-		transition: 0.2s ease all;
-		white-space: nowrap;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		max-width: calc(100% - 60px);
-
-		@include for-phone-only {
-			left: 40px;
-			font-size: 0.875rem;
-			max-width: calc(100% - 52px);
-		}
-	}
-
-	.search-label.floating {
-		top: -12px;
-		transform: none;
-		padding: 2px 8px 0px 8px;
-		border-top-left-radius: 12px;
-		border-top-right-radius: 12px;
-		background: var(--color--team-card-bg);
-		font-size: 0.75rem;
 	}
 
 	.curseforge-btn-text {
