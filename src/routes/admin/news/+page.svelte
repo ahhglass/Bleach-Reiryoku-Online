@@ -2,13 +2,8 @@
 	import { enhance } from '$app/forms';
 	import { invalidateAll } from '$app/navigation';
 	import { sound } from '$lib/utils/sound';
-	import { parseVideoCoverUrl } from '$lib/utils/embedVideoLinks';
+	import { parseVideoCoverUrl, youtubeThumbUrl } from '$lib/utils/embedVideoLinks';
 	import type { NewsRow } from '$lib/data/news-posts/fromSupabase';
-
-	/** YouTube thumbnail URL for admin preview (video cover). */
-	function youtubeThumbUrl(videoId: string): string {
-		return `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
-	}
 
 	interface Props {
 		data: {

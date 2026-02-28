@@ -1,6 +1,6 @@
 <script lang="ts">
 	import ImageWithSkeleton from '$ui/ImageWithSkeleton.svelte';
-	import { parseVideoCoverUrl } from '$lib/utils/embedVideoLinks';
+	import { parseVideoCoverUrl, youtubeThumbUrl } from '$lib/utils/embedVideoLinks';
 	import { sound } from '$lib/utils/sound';
 
 	interface Props {
@@ -32,24 +32,24 @@
 		<div class="image">
 			{#if coverVideo}
 				<div class="cover-media cover-media--video" style="--aspect-ratio: 16/10">
-					<div class="cover-media__wrapper">
-						{#if coverVideo.type === 'youtube'}
-							<iframe
-								title="YouTube video"
-								src="https://www.youtube.com/embed/{coverVideo.videoId}"
-								allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-								allowfullscreen
-								loading="lazy"
-							></iframe>
-						{:else}
+					{#if coverVideo.type === 'youtube'}
+						<img
+							class="cover-media__thumb"
+							src={youtubeThumbUrl(coverVideo.videoId)}
+							alt=""
+							loading="lazy"
+							decoding="async"
+						/>
+					{:else}
+						<div class="cover-media__wrapper">
 							<iframe
 								title="TikTok video"
 								src="https://www.tiktok.com/player/v1/{coverVideo.videoId}"
 								allow="fullscreen"
 								loading="lazy"
 							></iframe>
-						{/if}
-					</div>
+						</div>
+					{/if}
 				</div>
 			{:else}
 				<ImageWithSkeleton
@@ -120,11 +120,19 @@
 		overflow: hidden;
 		background: var(--color--team-card-avatar-bg, #e8e8e8);
 	}
+	.cover-media__thumb {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		display: block;
+	}
 	.cover-media__wrapper {
 		position: absolute;
 		inset: 0;
 	}
-	/* Cover 16/10: scale 16/9 video to fill height, crop sides (no letterboxing) */
+	/* TikTok iframe: cover 16/10, crop sides */
 	.cover-media__wrapper iframe {
 		position: absolute;
 		top: 0;

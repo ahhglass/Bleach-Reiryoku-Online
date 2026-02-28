@@ -13,6 +13,11 @@ const YOUTUBE_URL =
 const TIKTOK_URL =
 	/^(https?:\/\/(?:www\.)?tiktok\.com\/@[^/]+\/video\/(\d+))(?:\?|$)/i;
 
+/** YouTube thumbnail URL for preview/cover (e.g. in cards or admin). */
+export function youtubeThumbUrl(videoId: string): string {
+	return `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
+}
+
 /**
  * If the given URL is a YouTube or TikTok video link, returns embed info; otherwise null.
  * Use for cover image field: when user pastes a video URL, show video embed instead of image.
