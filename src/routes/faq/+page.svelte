@@ -102,17 +102,19 @@
 		</div>
 
 		<div class="controls">
-			<div class="filters">
-				{#each tags as tag}
-					<button
-						type="button"
-						class="filter-btn"
-						class:active={activeTag === tag}
-						onclick={() => setTag(tag)}
-					>
-						{tag}
-					</button>
-				{/each}
+			<div class="filters-wrap">
+				<div class="filters">
+					{#each tags as tag}
+						<button
+							type="button"
+							class="filter-btn"
+							class:active={activeTag === tag}
+							onclick={() => setTag(tag)}
+						>
+							{tag}
+						</button>
+					{/each}
+				</div>
 			</div>
 			<div class="actions">
 				<button type="button" class="action-btn" onclick={expandAll}>Expand all</button>
@@ -238,13 +240,21 @@
 	.search-curseforge-wrap {
 		display: flex;
 		align-items: center;
-		/* Don't let Sparkles/content grow on desktop */
+
 		@include for-phone-only {
 			width: 100%;
-			justify-content: flex-start;
+			justify-content: stretch;
+
+			:global(.sparkle-wrapper) {
+				width: 100%;
+			}
+			:global(.button.curseforge) {
+				width: 100%;
+				justify-content: center;
+				display: flex;
+			}
 		}
 
-		/* Prevent line-breaks for button and Sparkles on all screen by default */
 		:global(.button) {
 			white-space: nowrap;
 		}
@@ -347,18 +357,6 @@
 		width: auto;
 	}
 
-	@media (max-width: 600px) {
-		.search-curseforge-wrap {
-			width: 100%;
-			justify-content: flex-start;
-		}
-		:global(.button.curseforge) {
-			width: 100%;
-			justify-content: flex-start;
-			display: flex;
-		}
-	}
-
 	.controls {
 		display: flex;
 		gap: 12px;
@@ -374,13 +372,53 @@
 		}
 	}
 
+	.filters-wrap {
+		@include for-phone-only {
+			position: relative;
+			overflow: hidden;
+			margin: 0 -0.25rem;
+
+			&::before,
+			&::after {
+				content: '';
+				position: absolute;
+				top: 0;
+				bottom: 0;
+				width: 1.5rem;
+				pointer-events: none;
+				z-index: 1;
+			}
+
+			&::before {
+				left: 0;
+				background: linear-gradient(to right, var(--color--page-background), transparent);
+			}
+
+			&::after {
+				right: 0;
+				background: linear-gradient(to left, var(--color--page-background), transparent);
+			}
+		}
+	}
+
 	.filters {
 		display: flex;
 		flex-wrap: wrap;
 		gap: 8px;
 
 		@include for-phone-only {
+			flex-wrap: nowrap;
 			gap: 6px;
+			overflow-x: auto;
+			overflow-y: hidden;
+			-webkit-overflow-scrolling: touch;
+			scrollbar-width: none;
+			-ms-overflow-style: none;
+			padding: 2px 0.25rem;
+
+			&::-webkit-scrollbar {
+				display: none;
+			}
 		}
 	}
 
@@ -430,6 +468,7 @@
 		@include for-phone-only {
 			margin-left: 0;
 			gap: 6px;
+			justify-content: center;
 		}
 	}
 
@@ -471,6 +510,7 @@
 
 		@include for-phone-only {
 			font-size: 0.75rem;
+			text-align: center;
 		}
 	}
 

@@ -413,6 +413,8 @@
 
 			.mobile-sound-label {
 				line-height: 1.2;
+				font-size: 0.6rem;
+				text-transform: uppercase;
 			}
 		}
 

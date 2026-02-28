@@ -207,6 +207,7 @@
 			grid-template-columns: 1fr;
 			justify-items: center;
 			gap: 6em 20px;
+			padding: 3.25em 0 0.75em 0;
 		}
 	}
 

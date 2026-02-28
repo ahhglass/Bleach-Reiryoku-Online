@@ -87,13 +87,13 @@
 		}
 
 		@include for-phone-only {
-			min-height: 240px;
-			grid-template-rows: 80px 1fr;
+			min-height: 360px;
+			grid-template-rows: 100px 1fr;
 		}
 
 		@include for-iphone-se {
-			min-height: 220px;
-			grid-template-rows: 70px 1fr;
+			min-height: 240px;
+			grid-template-rows: 80px 1fr;
 		}
 	}
 
@@ -145,8 +145,6 @@
 
 		@include for-phone-only {
 			text-align: center;
-			border-top: 1px solid rgba(var(--color--primary-rgb), 0.15);
-			padding-top: 1rem;
 		}
 	}
 

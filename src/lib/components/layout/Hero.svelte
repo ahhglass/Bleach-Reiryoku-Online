@@ -80,5 +80,9 @@
 			flex-wrap: nowrap;
 			gap: 8px;
 		}
+
+		:global(.button.color--primary) {
+			white-space: nowrap;
+		}
 	}
 </style>
