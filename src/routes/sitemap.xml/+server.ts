@@ -1,4 +1,4 @@
-import { filteredNews } from '$lib/data/news-posts';
+import { filteredNews, getPostsFromDb } from '$lib/data/news-posts';
 import { siteBaseUrl } from '$lib/data/meta';
 import { getSupabaseServer } from '$lib/supabaseServer';
 
@@ -30,7 +30,8 @@ export async function GET() {
 		{ url: `${base}/team`, priority: '0.8', changefreq: 'monthly' as const },
 		{ url: `${base}/faq`, priority: '0.8', changefreq: 'monthly' as const }
 	];
-	const newsPages = filteredNews.map((p) => ({
+	const newsSource = (await getPostsFromDb()) ?? filteredNews;
+	const newsPages = newsSource.map((p) => ({
 		url: `${base}/news/${escapeXml(p.slug)}`,
 		priority: '0.7',
 		changefreq: 'monthly' as const,

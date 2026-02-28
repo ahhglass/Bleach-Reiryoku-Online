@@ -1,26 +1,8 @@
 import { error, redirect } from '@sveltejs/kit';
-import { filteredNews } from '$lib/data/news-posts';
-import { getSupabaseServer } from '$lib/supabaseServer';
-import { rowToPost, getRelatedFromRows, type NewsRow } from '$lib/data/news-posts/fromSupabase';
+import { filteredNews, getPostsFromDb } from '$lib/data/news-posts';
 import type { NewsPost } from '$lib/utils/types';
 
 const PER_PAGE = 6;
-
-async function getPostsFromDb(): Promise<NewsPost[] | null> {
-	try {
-		const supabase = getSupabaseServer();
-		const { data, error } = await supabase
-			.from('news_posts')
-			.select('slug, title, date, updated, excerpt, body, cover_image, tags, hidden')
-			.eq('hidden', false)
-			.order('date', { ascending: false });
-		if (error || !data?.length) return null;
-		const rows = data as NewsRow[];
-		return rows.map((r) => rowToPost(r, getRelatedFromRows(rows, r)));
-	} catch {
-		return null;
-	}
-}
 
 export async function load({ url }: { url: URL }) {
 	const pathname = url.pathname.replace(/\/$/, '');

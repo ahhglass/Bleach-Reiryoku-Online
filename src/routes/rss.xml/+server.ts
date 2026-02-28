@@ -1,4 +1,4 @@
-import { filteredNews } from '$lib/data/news-posts';
+import { filteredNews, getPostsFromDb } from '$lib/data/news-posts';
 import { siteBaseUrl, title as metaTitle, description as metaDesc } from '$lib/data/meta';
 import { getSupabaseServer } from '$lib/supabaseServer';
 
@@ -37,7 +37,8 @@ export async function GET() {
 	const base = settings.site_base_url || siteBaseUrl.replace(/\/$/, '');
 	const siteTitle = settings.site_title || 'News';
 	const description = settings.site_description || '';
-	const posts = filteredNews.slice(0, 20);
+	const dbPosts = await getPostsFromDb();
+	const posts = (dbPosts?.length ? dbPosts : filteredNews).slice(0, 20);
 
 	const rss = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
