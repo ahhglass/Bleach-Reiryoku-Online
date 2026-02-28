@@ -35,6 +35,18 @@
 		}
 	}
 
+	@media screen and (prefers-reduced-motion: reduce) {
+		.wrapper {
+			animation: none;
+			transform: scale(1);
+			opacity: 1;
+		}
+		.wrapper svg {
+			animation: none;
+			transform: rotate(180deg);
+		}
+	}
+
 	@keyframes grow-and-shrink {
 		0% {
 			transform: scale(0);

@@ -122,6 +122,13 @@
 		}
 	}
 
+	@media screen and (prefers-reduced-motion: reduce) {
+		.cards-grid.mounted .card-item {
+			animation: none;
+			opacity: 1;
+		}
+	}
+
 	@keyframes card-fade-in {
 		from {
 			opacity: 0;

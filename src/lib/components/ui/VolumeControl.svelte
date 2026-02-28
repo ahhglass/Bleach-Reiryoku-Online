@@ -189,6 +189,12 @@
 		white-space: nowrap;
 		animation: volIn 0.2s ease-out;
 
+		@media screen and (prefers-reduced-motion: reduce) {
+			animation: none;
+			opacity: 1;
+			transform: translateX(-50%) translateY(0);
+		}
+
 		input[type='range'] {
 			width: 100px;
 			height: 6px;

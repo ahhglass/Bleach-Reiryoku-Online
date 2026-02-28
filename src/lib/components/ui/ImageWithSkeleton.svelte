@@ -102,6 +102,14 @@
 		animation: spinner-rotate 0.7s linear infinite;
 	}
 
+	@media screen and (prefers-reduced-motion: reduce) {
+		.spinner {
+			animation: none;
+			border-top-color: var(--color--primary, #e61860);
+			opacity: 0.6;
+		}
+	}
+
 	@keyframes spinner-rotate {
 		to {
 			transform: rotate(360deg);

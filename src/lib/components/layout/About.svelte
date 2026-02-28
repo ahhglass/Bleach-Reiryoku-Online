@@ -146,7 +146,12 @@
 			{ threshold: 0.2, rootMargin: '0px' }
 		);
 		if (imageRef) observer.observe(imageRef);
-		rafId = requestAnimationFrame(tick);
+
+		const prefersReducedMotion = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+		if (!prefersReducedMotion) {
+			rafId = requestAnimationFrame(tick);
+		}
+
 		return () => {
 			observer.disconnect();
 			cancelAnimationFrame(rafId);
@@ -269,6 +274,14 @@
 
 		&.in-view {
 			animation: slide-in-bounce 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+		}
+
+		@media screen and (prefers-reduced-motion: reduce) {
+			&.in-view {
+				animation: none;
+				transform: none;
+				opacity: 1;
+			}
 		}
 
 		.image-wrap {

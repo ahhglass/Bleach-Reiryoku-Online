@@ -166,6 +166,18 @@
 		animation: post-open 0.4s cubic-bezier(0.33, 1, 0.68, 1) forwards;
 	}
 
+	@media screen and (prefers-reduced-motion: reduce) {
+		.article-layout-inner.mounted {
+			animation: none;
+			opacity: 1;
+			transform: none;
+		}
+		.related-grid.mounted .card-item {
+			animation: none;
+			opacity: 1;
+		}
+	}
+
 	@keyframes post-open {
 		to {
 			opacity: 1;

@@ -273,6 +273,14 @@
 		border-radius: 50%;
 		animation: login-spin 0.7s linear infinite;
 	}
+
+	@media screen and (prefers-reduced-motion: reduce) {
+		.spinner {
+			animation: none;
+			opacity: 0.8;
+		}
+	}
+
 	@keyframes login-spin {
 		to {
 			transform: rotate(360deg);
