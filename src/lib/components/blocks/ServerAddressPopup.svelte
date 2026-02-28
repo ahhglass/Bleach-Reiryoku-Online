@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Button from '$ui/Button.svelte';
+	import { Xmark } from '$lib/icons';
 	import { sound } from '$lib/utils/sound';
 
 	interface Props {
@@ -53,7 +54,9 @@
 		aria-label="Close"
 		onclick={onClose}
 		use:sound
-	>✕</button>
+	>
+		<span class="close-btn-icon" aria-hidden="true"><Xmark /></span>
+	</button>
 </div>
 
 <style lang="scss">
@@ -95,10 +98,11 @@
 		border: none;
 		background: transparent;
 		color: var(--color--text-shade);
-		font-size: 1.25rem;
 		cursor: pointer;
 		border-radius: 50%;
-		line-height: 1;
+		display: flex;
+		align-items: center;
+		justify-content: center;
 		transition:
 			color 0.35s var(--ease-4),
 			background 0.35s var(--ease-4),
@@ -111,6 +115,19 @@
 
 		&:active {
 			transform: scale(0.92);
+		}
+
+		.close-btn-icon {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: 1.25rem;
+			height: 1.25rem;
+
+			:global(svg) {
+				width: 100%;
+				height: 100%;
+			}
 		}
 	}
 </style>

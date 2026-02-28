@@ -1,6 +1,6 @@
 <script lang="ts">
 	import FaqAccordion from '$blocks/FaqAccordion.svelte';
-	import { Search as SearchIcon, ExpandLines as ExpandLinesIcon, CompressLines as CompressLinesIcon, Curseforge as CurseForgeIcon } from '$lib/icons';
+	import { Search as SearchIcon, Xmark as XmarkIcon, ExpandLines as ExpandLinesIcon, CompressLines as CompressLinesIcon, Curseforge as CurseForgeIcon } from '$lib/icons';
 	import type { FaqItem } from '$lib/data/faq';
 	import type { SiteSettings } from '../+layout.server';
 	import Button from '$ui/Button.svelte';
@@ -70,7 +70,7 @@
 		<p class="find-desc">Explore information and stay up to date with the project's development.</p>
 
 		<div class="search-wrap group">
-			<div class="search-main">
+			<div class="search-main" class:has-clear={search.length > 0}>
 				<span class="search-icon" aria-hidden="true">
 					<SearchIcon />
 				</span>
@@ -84,6 +84,16 @@
 					aria-label="Search FAQ"
 					autocomplete="off"
 				/>
+				{#if search.length > 0}
+					<button
+						type="button"
+						class="search-clear"
+						aria-label="Clear search"
+						onclick={() => (search = '')}
+					>
+						<span class="search-clear-icon" aria-hidden="true"><XmarkIcon /></span>
+					</button>
+				{/if}
 				<label for="faq-search" class="search-label" class:floating={labelFloating}>
 					Search questions or keywords
 				</label>
@@ -236,9 +246,19 @@
 		width: 100%;
 		display: flex;
 		align-items: center;
+		max-width: 380px;
+
+		&.has-clear .search-input {
+			padding-right: 2.75rem;
+		}
 
 		@include for-phone-only {
 			width: 100%;
+			max-width: none;
+
+			&.has-clear .search-input {
+				padding-right: 2.5rem;
+			}
 		}
 	}
 
@@ -298,7 +318,6 @@
 
 	.search-input {
 		width: 100%;
-		max-width: 380px;
 		padding: 8px 12px 8px 42px;
 		font-size: 1rem;
 		border: none;
@@ -307,15 +326,72 @@
 		color: var(--color--text);
 		font-family: inherit;
 		transition: box-shadow 0.3s ease;
+		-webkit-appearance: none;
+		appearance: none;
 
 		&:focus {
 			outline: none;
 			box-shadow: 0 0 0 2px rgba(var(--color--primary-rgb), 0.2);
 		}
 
+		&::-webkit-search-cancel-button,
+		&::-webkit-search-decoration {
+			-webkit-appearance: none;
+			appearance: none;
+		}
+
 		@include for-phone-only {
 			padding: 14px 12px 8px 40px;
 			font-size: 0.9375rem;
+		}
+	}
+
+	.search-clear {
+		position: absolute;
+		right: 10px;
+		top: 50%;
+		transform: translateY(-50%);
+		width: 1.5rem;
+		height: 1.5rem;
+		padding: 0;
+		border: none;
+		background: transparent;
+		color: var(--color--text-shade);
+		cursor: pointer;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-radius: 50%;
+		transition: color 0.2s ease, background 0.2s ease;
+		z-index: 1;
+
+		&:hover {
+			color: var(--color--text);
+			background: rgba(var(--color--primary-rgb), 0.1);
+		}
+
+		.search-clear-icon {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: 1.2rem;
+			height: 1.2rem;
+
+			:global(svg) {
+				width: 100%;
+				height: 100%;
+			}
+		}
+
+		@include for-phone-only {
+			right: 8px;
+			width: 1.25rem;
+			height: 1.25rem;
+
+			.search-clear-icon {
+				width: 1rem;
+				height: 1rem;
+			}
 		}
 	}
 
