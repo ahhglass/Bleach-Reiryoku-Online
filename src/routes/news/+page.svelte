@@ -2,8 +2,10 @@
 	import { onMount } from 'svelte';
 	import NewsCard from '$blocks/NewsCard.svelte';
 	import type { SiteSettings } from '../+layout.server';
-	import { NavArrowLeft, NavArrowRight } from '$lib/icons';
+	import { NavArrowLeft, NavArrowRight, SortUp, SortDown, Sort } from '$lib/icons';
 	import type { NewsPost } from '$lib/utils/types';
+
+	type SortMode = 'newest' | 'oldest' | 'title';
 
 	interface Props {
 		data: {
@@ -11,12 +13,14 @@
 			posts?: NewsPost[];
 			totalPages?: number;
 			currentPage?: number;
+			sort?: SortMode;
 		};
 	}
 
 	let { data }: Props = $props();
 
 	const siteTitle = $derived(data?.settings?.site_title ?? '');
+	const currentSort = $derived((data?.sort ?? 'newest') as SortMode);
 
 	const posts = $derived(data?.posts ?? []);
 	const totalPages = $derived(data?.totalPages ?? 1);
@@ -29,7 +33,18 @@
 	});
 
 	function pageUrl(page: number): string {
-		return page === 1 ? '/news' : `/news?page=${page}`;
+		const params = new URLSearchParams();
+		if (currentSort !== 'newest') params.set('sort', currentSort);
+		if (page > 1) params.set('page', String(page));
+		const q = params.toString();
+		return q ? `/news?${q}` : '/news';
+	}
+
+	function sortUrl(sort: SortMode): string {
+		const params = new URLSearchParams();
+		if (sort !== 'newest') params.set('sort', sort);
+		const q = params.toString();
+		return q ? `/news?${q}` : '/news';
 	}
 
 	// Show at most 4 page numbers in each block: 1 2 3 4 … 10 or 1 … 7 8 9 10
@@ -68,6 +83,35 @@
 		<p class="label">LATEST NEWS</p>
 		<h1 class="page-title">News</h1>
 	</header>
+
+	{#if posts.length || totalPages > 0}
+		<nav class="sort-controls" aria-label="Sort news">
+			<a
+				class="sort-btn"
+				class:active={currentSort === 'newest'}
+				href={sortUrl('newest')}
+			>
+				<span class="sort-btn-icon" aria-hidden="true"><SortUp /></span>
+				Newest
+			</a>
+			<a
+				class="sort-btn"
+				class:active={currentSort === 'oldest'}
+				href={sortUrl('oldest')}
+			>
+				<span class="sort-btn-icon" aria-hidden="true"><SortDown /></span>
+				Oldest
+			</a>
+			<a
+				class="sort-btn"
+				class:active={currentSort === 'title'}
+				href={sortUrl('title')}
+			>
+				<span class="sort-btn-icon" aria-hidden="true"><Sort /></span>
+				By Title
+			</a>
+		</nav>
+	{/if}
 
 	{#if posts.length}
 		<div class="news-grid" class:mounted>
@@ -131,9 +175,76 @@
 		width: 100%;
 	}
 
+	.sort-controls {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: 8px;
+		margin-bottom: 28px;
+
+		@include for-phone-only {
+			gap: 6px;
+			margin-bottom: 20px;
+		}
+	}
+
+	.sort-btn {
+		display: inline-flex;
+		align-items: center;
+		gap: 8px;
+		padding: 4px 14px;
+		font-size: 0.8125rem;
+		font-weight: 500;
+		border-radius: 16px;
+		border: none;
+		background: var(--color--team-card-bg);
+		color: var(--color--text);
+		text-decoration: none;
+		cursor: pointer;
+		font-family: inherit;
+		transition:
+			background 0.35s var(--ease-4),
+			color 0.35s var(--ease-4),
+			transform 0.2s var(--ease-out-3);
+
+		&:hover {
+			background: var(--color--team-badge-bg);
+			color: var(--color--team-badge-text);
+		}
+
+		&:active {
+			transform: scale(0.97);
+		}
+
+		&.active {
+			background: var(--color--team-badge-bg);
+			color: var(--color--team-badge-text);
+		}
+
+		@include for-phone-only {
+			gap: 6px;
+			padding: 6px 10px;
+			font-size: 0.75rem;
+		}
+	}
+
+	.sort-btn-icon {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 1rem;
+		height: 1rem;
+		flex-shrink: 0;
+
+		:global(svg) {
+			width: 100%;
+			height: 100%;
+		}
+	}
+
 	.news-header {
 		text-align: center;
-		margin-bottom: 48px;
+		margin-bottom: 1.5em;
 
 		.label {
 			@include fluid-text(0.75rem, 0.875rem);

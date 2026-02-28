@@ -12,6 +12,9 @@ export { default as Exit } from './ui/exit.svelte';
 export { default as Search } from './ui/search.svelte';
 export { default as Playnow } from './ui/playnow.svelte';
 export { default as Xmark } from './ui/xmark.svelte';
+export { default as Sort } from './ui/sort.svelte';
+export { default as SortUp } from './ui/sort-up.svelte';
+export { default as SortDown } from './ui/sort-down.svelte';
 
 export { default as Discord } from './social/discord.svelte';
 export { default as Email } from './social/email.svelte';

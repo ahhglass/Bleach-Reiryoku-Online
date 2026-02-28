@@ -28,6 +28,16 @@ export async function load({ url }: { url: URL }) {
 		posts = filteredNews;
 	}
 
+	const sortParam = url.searchParams.get('sort') ?? 'newest';
+	const sort = sortParam === 'oldest' || sortParam === 'title' ? sortParam : 'newest';
+
+	if (sort === 'oldest') {
+		posts = [...posts].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+	} else if (sort === 'title') {
+		posts = [...posts].sort((a, b) => a.title.localeCompare(b.title, undefined, { sensitivity: 'base' }));
+	}
+	// 'newest': default order (already newest first from DB/file)
+
 	const pageParam = url.searchParams.get('page');
 	const rawPage = parseInt(pageParam ?? '1', 10);
 	const currentPage = Number.isNaN(rawPage) || rawPage < 1 ? 1 : rawPage;
@@ -35,8 +45,11 @@ export async function load({ url }: { url: URL }) {
 	const totalPages = Math.max(1, Math.ceil(totalPosts / PER_PAGE));
 
 	if (currentPage > totalPages && totalPages >= 1) {
-		const target = totalPages === 1 ? '/news' : `/news?page=${totalPages}`;
-		throw redirect(302, target);
+		const params = new URLSearchParams();
+		if (sort !== 'newest') params.set('sort', sort);
+		if (totalPages > 1) params.set('page', String(totalPages));
+		const q = params.toString();
+		throw redirect(302, q ? `/news?${q}` : '/news');
 	}
 
 	const start = (currentPage - 1) * PER_PAGE;
@@ -47,6 +60,7 @@ export async function load({ url }: { url: URL }) {
 		posts: pagePosts,
 		totalPosts,
 		totalPages,
-		currentPage
+		currentPage,
+		sort
 	};
 }
