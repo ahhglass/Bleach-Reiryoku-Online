@@ -414,6 +414,7 @@
 			.mobile-sound-label {
 				line-height: 1.2;
 				font-size: 0.6rem;
+				font-weight: 500;
 				text-transform: uppercase;
 			}
 		}
