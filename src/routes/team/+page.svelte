@@ -95,8 +95,19 @@
 		color: var(--color--text);
 		margin: 0 0 20px;
 		padding-bottom: 8px;
-		border-bottom: 3px solid var(--color--primary);
+		border-bottom: 3px;
+		position: relative;
 		display: inline-block;
+	}
+
+	.section-title::after {
+		content: '';
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		width: 128%;
+		height: 3px;
+		background: linear-gradient(to right, var(--color--primary), transparent);
 	}
 
 	.cards-grid {
