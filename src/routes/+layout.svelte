@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { dev } from '$app/environment';
 	import '$lib/scss/global.scss';
 	import { page } from '$app/stores';
 	import { description as defaultDesc, image as defaultImage, keywords as defaultKeywords, title as defaultTitle, siteBaseUrl as defaultBaseUrl } from '$lib/data/meta';
@@ -53,10 +52,6 @@
 
 	onMount(() => {
 		initSound();
-		// Vercel Analytics: dynamic import so build can resolve only in client bundle
-		import('@vercel/analytics/sveltekit').then(({ injectAnalytics }) => {
-			injectAnalytics({ mode: dev ? 'development' : 'production' });
-		});
 	});
 
 	let open = $state(false);
